@@ -10,6 +10,8 @@
     text-align: center;
     margin: 0;
     padding: 20px;
+    height: 100vh;
+    position: relative;
   }
 
   h1 {
@@ -28,9 +30,8 @@
   .button-container {
     display: flex;
     justify-content: center;
-    gap: 30px; /* espace entre les boutons */
+    gap: 30px;
     margin-top: 20px;
-    position: relative; /* pour que le bouton "Non" reste dans ce container */
   }
 
   button {
@@ -41,12 +42,12 @@
     border-radius: 10px;
     background-color: black;
     color: white;
-    position: relative;
     transition: transform 0.2s;
+    position: absolute; /* pour que le bouton Non puisse bouger librement */
   }
 
-  button#oui:hover {
-    transform: scale(1.1);
+  button#oui {
+    position: static; /* reste fixe pour Oui */
   }
 </style>
 </head>
@@ -64,13 +65,16 @@
 <script>
 const nonBtn = document.getElementById('non');
 
-// Fonction pour bouger le bouton Non
+// Position initiale du bouton Non à côté du bouton Oui
+const ouiBtn = document.getElementById('oui');
+const rect = ouiBtn.getBoundingClientRect();
+nonBtn.style.left = (rect.right + 30) + 'px';
+nonBtn.style.top = rect.top + 'px';
+
+// Fonction pour bouger le bouton Non horizontalement
 function bouger() {
-  const container = document.querySelector('.button-container');
-  const maxX = container.offsetWidth - nonBtn.offsetWidth;
-  const maxY = 0; // on garde la même ligne horizontale
+  const maxX = window.innerWidth - nonBtn.offsetWidth;
   const x = Math.random() * maxX;
-  nonBtn.style.position = 'relative';
   nonBtn.style.left = x + 'px';
 }
 
@@ -78,10 +82,7 @@ function bouger() {
 nonBtn.addEventListener('mouseenter', bouger);
 nonBtn.addEventListener('touchstart', bouger);
 
-// Message pour Oui
-document.getElementById('oui').addEventListener('click', () => {
-  alert("💖 Youpi ! Tu es ma Valentine ! 💖");
-});
+// Pour l'instant, rien ne se passe quand on clique sur Oui
 </script>
 
 </body>
