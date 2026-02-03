@@ -12,6 +12,7 @@
     padding: 20px;
     height: 100vh;
     position: relative;
+    overflow: hidden; /* empêche le défilement horizontal */
   }
 
   .title-container {
@@ -45,6 +46,7 @@
     justify-content: center;
     gap: 30px;
     margin-top: 20px;
+    position: relative;
   }
 
   button {
@@ -60,7 +62,7 @@
   }
 
   button#oui {
-    position: static; /* reste fixe pour Oui */
+    position: relative; /* reste fixe pour Oui */
   }
 </style>
 </head>
@@ -68,7 +70,7 @@
 
 <div class="title-container">
   <h1>Veux-tu être ma Valentine ? 💖</h1>
-  <span class="small-text">test</span>
+  <span class="small-text">test 2</span>
 </div>
 
 <img src="https://via.placeholder.com/400x200.png?text=Ton+Image+Ici" alt="Image de Valentine">
@@ -80,25 +82,38 @@
 
 <script>
 const nonBtn = document.getElementById('non');
-
-// Position initiale du bouton Non à côté du bouton Oui
 const ouiBtn = document.getElementById('oui');
-const rect = ouiBtn.getBoundingClientRect();
-nonBtn.style.left = (rect.right + 30) + 'px';
-nonBtn.style.top = rect.top + 'px';
 
-// Fonction pour bouger le bouton Non horizontalement
+// Position initiale du bouton Oui
+const ouiRect = ouiBtn.getBoundingClientRect();
+nonBtn.style.left = (ouiRect.right + 30) + 'px';
+nonBtn.style.top = ouiRect.top + 'px';
+
+// Fonction pour bouger le bouton Non sans recouvrir Oui
 function bouger() {
   const maxX = window.innerWidth - nonBtn.offsetWidth;
-  const x = Math.random() * maxX;
+  const maxY = window.innerHeight - nonBtn.offsetHeight;
+  
+  let x, y;
+  const ouiRect = ouiBtn.getBoundingClientRect();
+  
+  do {
+    x = Math.random() * maxX;
+    y = Math.random() * maxY;
+  } while (
+    x < ouiRect.right && x + nonBtn.offsetWidth > ouiRect.left &&
+    y < ouiRect.bottom && y + nonBtn.offsetHeight > ouiRect.top
+  );
+
   nonBtn.style.left = x + 'px';
+  nonBtn.style.top = y + 'px';
 }
 
 // Bouge sur PC et tablette
 nonBtn.addEventListener('mouseenter', bouger);
 nonBtn.addEventListener('touchstart', bouger);
 
-// Pour l'instant, rien ne se passe quand on clique sur Oui
+// Le bouton Oui ne fait rien pour l'instant
 </script>
 
 </body>
