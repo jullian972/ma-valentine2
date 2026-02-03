@@ -10,32 +10,18 @@
     text-align:center; 
     background:#FF5AAC; /* fond rose */
   }
-  .title-container { 
-    display:flex; 
-    justify-content:center; 
-    align-items:baseline; 
-    gap:10px; 
-    margin-top:40px; 
-  }
+  .title-container { display:flex; justify-content:center; align-items:baseline; gap:10px; margin-top:40px; }
   h1 { color:#ffffff; margin:0; }
-  /* .small-text supprimé */
-
-  /* Image plus petite et centrée */
+  .small-text { font-size:0.8em; color:white; }
+  /* image plus petite et centrée */
   img { 
     display:block;
     margin:20px auto; 
     max-width:80%; 
-    height:auto;
+    height:auto; 
     border-radius:15px; 
   }
-
-  /* Zone de boutons (taille fixe d'origine) */
-  .zone { 
-    position:relative; 
-    width:756px; 
-    height:529px; 
-    margin:40px auto 0; 
-  }
+  .zone { position:relative; width:756px; height:529px; margin:40px auto 0; }
 
   button {
     padding:15px 40px;
@@ -45,7 +31,6 @@
     cursor:pointer;
     position:absolute;
     user-select:none;
-    white-space:nowrap; /* évite le retour à la ligne sur les textes de boutons */
   }
 
   #oui { background: green; color: white; }
@@ -56,11 +41,11 @@
 
 <div class="title-container">
   <h1>Veux-tu être ma Valentine ? 💖</h1>
-  <!-- le span small-text "test 7" a été supprimé -->
+  <span class="small-text">test 7</span>
 </div>
 
-<!-- Ton image PNG (on garde exactement le nom avec espaces) -->
-<img src="homme noir plz.png" alt="Photo Valentine">
+<!-- Ici on pointe vers homme.jpg -->
+<img src="homme.jpg" alt="Photo Valentine">
 
 <div class="zone">
   <button id="oui" onclick="location.href='page2.html'">Oui</button>
@@ -68,50 +53,25 @@
 </div>
 
 <script>
-const btnOui = document.getElementById("oui");
 const non = document.getElementById("non");
 const zone = document.querySelector(".zone");
 const padding = 5;
 
-/**
- * Place les deux boutons côte à côte, centrés horizontalement,
- * en utilisant leurs VRAIES largeurs (offsetWidth) pour éviter tout chevauchement.
- */
 function positionInitiale() {
   const zoneWidth = zone.offsetWidth;
   const zoneHeight = zone.offsetHeight;
-
-  // Largeurs/hauteurs réelles après rendu
-  const ouiWidth = btnOui.offsetWidth;
-  const nonWidth = non.offsetWidth;
-  const btnHeight = Math.max(btnOui.offsetHeight, non.offsetHeight);
-
-  const gap = 20; // espace entre les deux boutons
-
-  // Largeur totale (Oui + gap + Non)
-  const totalWidth = ouiWidth + gap + nonWidth;
-
-  // Point de départ pour centrer l'ensemble
-  const startX = (zoneWidth - totalWidth) / 2;
-  const centerY = (zoneHeight - btnHeight) / 2;
-
-  // Positionner Oui puis Non à droite
-  btnOui.style.left = startX + "px";
-  btnOui.style.top = centerY + "px";
-
-  non.style.left = (startX + ouiWidth + gap) + "px";
-  non.style.top = centerY + "px";
+  const ouiWidth = 100;
+  const nonWidth = 100;
+  const btnHeight = 50;
+  const centerX = zoneWidth/2;
+  const centerY = zoneHeight/2;
+  document.getElementById("oui").style.left = (centerX - ouiWidth -10)+"px";
+  document.getElementById("oui").style.top = (centerY - btnHeight/2)+"px";
+  non.style.left = (centerX + 10)+"px";
+  non.style.top = (centerY - btnHeight/2)+"px";
 }
 
-// Appeler après que le DOM soit prêt
-document.addEventListener("DOMContentLoaded", () => {
-  // Première passe
-  positionInitiale();
-  // Seconde passe juste après rendu (au cas où les polices ajustent la taille)
-  requestAnimationFrame(positionInitiale);
-});
-
-// Repositionner au redimensionnement
+positionInitiale();
 window.addEventListener("resize", positionInitiale);
 
 function bougerNon(){
@@ -128,7 +88,7 @@ function bougerNon(){
 }
 
 non.addEventListener("mouseenter", bougerNon);
-non.addEventListener("touchstart", bougerNon, { passive:false });
+non.addEventListener("touchstart", bougerNon,{passive:false});
 </script>
 
 </body>
