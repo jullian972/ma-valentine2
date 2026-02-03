@@ -38,18 +38,21 @@
     border-radius: 15px;
   }
 
-  /* RECTANGLE INVISIBLE (20cm x 14cm) */
+  /* ZONE INVISIBLE (adaptée iPad) */
   .zone {
     position: relative;
-    width: 20cm;
-    height: 14cm;
+    width: 80vw;
+    max-width: 900px;
+    height: 45vh;
+    max-height: 500px;
     margin: 40px auto 0;
   }
 
+  /* BOUTONS */
   .buttons {
     position: absolute;
-    top: 50%;
     left: 50%;
+    top: 50%;
     transform: translate(-50%, -50%);
     display: flex;
     gap: 30px;
@@ -93,7 +96,7 @@ const oui = document.getElementById("oui");
 const non = document.getElementById("non");
 const zone = document.querySelector(".zone");
 
-// position initiale : Non à côté de Oui
+/* POSITION INITIALE IDENTIQUE À PAGE 2 */
 function positionInitiale() {
   const rOui = oui.getBoundingClientRect();
   const rZone = zone.getBoundingClientRect();
@@ -105,13 +108,14 @@ function positionInitiale() {
 positionInitiale();
 window.addEventListener("resize", positionInitiale);
 
-// déplacement dans le rectangle 20x14 cm
-function bougerNon() {
+/* DÉPLACEMENT CONTRÔLÉ (TABLETTE) */
+function bougerNon(e) {
+  e.preventDefault();
+
   const rZone = zone.getBoundingClientRect();
-  const rOui = oui.getBoundingClientRect();
   const rNon = non.getBoundingClientRect();
 
-  const minX = rOui.right - rZone.left + 20;
+  const minX = 0;
   const maxX = rZone.width - rNon.width;
 
   const minY = 0;
@@ -124,8 +128,8 @@ function bougerNon() {
   non.style.top = y + "px";
 }
 
-// iPad = tactile
-non.addEventListener("touchstart", bougerNon);
+/* iPad = toucher */
+non.addEventListener("touchstart", bougerNon, { passive: false });
 </script>
 
 </body>
