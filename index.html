@@ -5,13 +5,14 @@
   <title>Veux-tu être ma Valentine ? 💖</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
+    /* ========== Style global ========== */
     :root {
-      --rose:#FF5AAC;
-      --white:#fff;
-      --green:#1e9e47;
-      --red:#e5242a;
-      --radius:14px;
-      --shadow:0 10px 20px rgba(0,0,0,.12);
+      --rose: #FF5AAC;
+      --white: #fff;
+      --green: #1e9e47;
+      --red: #e5242a;
+      --radius: 14px;
+      --shadow: 0 10px 20px rgba(0,0,0,.12);
     }
 
     * { box-sizing: border-box; }
@@ -24,18 +25,12 @@
       color: var(--white);
     }
 
-    .container {
-      max-width: 820px;
-      margin: 24px auto 48px;
-      padding: 0 16px;
-    }
-
     .title-container {
       display: flex;
       justify-content: center;
       align-items: baseline;
       gap: 10px;
-      margin-top: 12px;
+      margin: 32px 16px 8px;
       flex-wrap: wrap;
     }
 
@@ -50,29 +45,37 @@
       opacity: .9;
     }
 
+    /* ========== Carte image + zone boutons ========== */
     .card {
-      position: relative; /* pour superposer la zone sur l'image */
-      margin-top: 16px;
+      position: relative;            /* permet de positionner la zone au-dessus de l'image */
+      max-width: 420px;              /* <<< ajuste ici la taille max de l'image (ex: 360 / 420 / 500 px) */
+      width: clamp(280px, 90vw, 420px);
+      margin: 16px auto 40px;
       border-radius: var(--radius);
-      overflow: hidden; /* pour arrondir aussi l'image et la zone */
+      overflow: hidden;              /* arrondit aussi l'image et la zone */
       box-shadow: var(--shadow);
-      background: #fff2f7; /* petite bordure douce autour si l'image ne remplit pas tout */
+      background: #fff2f7;
     }
 
+    /* L'image est réduite et centrée via .card */
     .photo {
       display: block;
       width: 100%;
       height: auto;
-      aspect-ratio: 756 / 529;           /* même ratio que ta zone d'origine */
-      object-fit: cover;                  /* couvre proprement */
+      aspect-ratio: 756 / 529;       /* conserve le ratio d'origine de ta zone */
+      object-fit: cover;
+      user-select: none;
+      pointer-events: none;          /* pour éviter que l'image bloque les interactions */
     }
 
+    /* La zone recouvre exactement l'image */
     .zone {
-      position: absolute; /* se cale sur la photo */
-      inset: 0;           /* occupe exactement la surface de l'image */
-      pointer-events: none; /* évite que la zone bloque les interactions sauf sur les boutons */
+      position: absolute;
+      inset: 0;                      /* top/right/bottom/left: 0 */
+      pointer-events: none;          /* on réactive les events uniquement sur les boutons */
     }
 
+    /* ========== Boutons ========== */
     .btn {
       position: absolute;
       padding: 14px 34px;
@@ -84,12 +87,8 @@
       color: #fff;
       box-shadow: 0 6px 14px rgba(0,0,0,.15);
       transition: transform .12s ease, box-shadow .12s ease;
-      pointer-events: auto; /* réactive les events sur les boutons */
+      pointer-events: auto;          /* important pour pouvoir cliquer les boutons */
       outline: none;
-    }
-
-    .btn:focus-visible {
-      box-shadow: 0 0 0 3px rgba(255,255,255,.7), 0 6px 14px rgba(0,0,0,.15);
     }
 
     #oui { background: var(--green); }
@@ -98,6 +97,10 @@
     .btn:hover { transform: translateY(-2px); }
     .btn:active { transform: translateY(0); }
 
+    .btn:focus-visible {
+      box-shadow: 0 0 0 3px rgba(255,255,255,.7), 0 6px 14px rgba(0,0,0,.15);
+    }
+
     @media (prefers-reduced-motion: reduce) {
       .btn { transition: none; }
     }
@@ -105,38 +108,40 @@
 </head>
 <body>
 
-  <div class="container">
-    <div class="title-container">
-      <h1>Veux-tu être ma Valentine ? 💖</h1>
-      <span class="small-text">édition spéciale</span>
-    </div>
+  <div class="title-container">
+    <h1>Veux-tu être ma Valentine ? 💖</h1>
+    <span class="small-text">édition spéciale</span>
+  </div>
 
-    <div class="card" id="card">
-      <!-- Remplace le src par le bon chemin (évite espaces/accents si possible) -->
-      <img class="photo" id="photo" src="homme-noir-plz.jpg" alt="Photo Valentine" />
-      <div class="zone" id="zone" aria-hidden="true">
-        <button id="oui" class="btn" aria-label="Oui">Oui</button>
-        <button id="non" class="btn" aria-label="Non">Non</button>
-      </div>
+  <!-- Carte contenant l'image et la zone de boutons -->
+  <div class="card" id="card">
+    <!-- Image locale : mets homme-noir-plz.jpg dans le même dossier que index.html -->
+    <img src="homme-noir-plz.jpg" alt="Photo Valentine" class="photo" id="photo" />
+
+    <!-- Zone qui recouvre l'image -->
+    <div class="zone" id="zone" aria-hidden="true">
+      <button id="oui" class="btn" aria-label="Oui">Oui</button>
+      <button id="non" class="btn" aria-label="Non">Non</button>
     </div>
   </div>
 
   <script>
+    // Récupération des éléments
     const photo = document.getElementById('photo');
     const zone  = document.getElementById('zone');
     const btnOui = document.getElementById('oui');
     const btnNon = document.getElementById('non');
 
     const PADDING = 8;      // marge intérieure de sécurité
-    const BTN_W = 120;      // largeur approx utilisée pour le centrage initial (sera ajustée après rendu)
-    const BTN_H = 52;
+    const BTN_W = 120;      // largeur approx pour centrage initial
+    const BTN_H = 52;       // hauteur approx pour centrage initial
 
+    // Centre "Oui" à gauche et "Non" à droite, au milieu vertical
     function centerButtons() {
       const rect = zone.getBoundingClientRect();
       const centerX = rect.width / 2;
       const centerY = rect.height / 2;
 
-      // placer Oui à gauche, Non à droite
       btnOui.style.left = (centerX - BTN_W - 10) + 'px';
       btnOui.style.top  = (centerY - BTN_H / 2) + 'px';
 
@@ -144,6 +149,7 @@
       btnNon.style.top  = (centerY - BTN_H / 2) + 'px';
     }
 
+    // Téléporte "Non" à un endroit aléatoire dans la zone
     function moveNonRandom() {
       const rect = zone.getBoundingClientRect();
       const bw = btnNon.offsetWidth;
@@ -161,7 +167,7 @@
       btnNon.style.top  = y + 'px';
     }
 
-    // Variante plus fun : le bouton “Non” fuit le curseur si on s'approche à moins de 120 px
+    // Variante fun : le bouton "Non" fuit si on s'approche à moins de 120 px
     function fleeIfClose(e) {
       const zoneRect = zone.getBoundingClientRect();
       const nonRect = btnNon.getBoundingClientRect();
@@ -176,16 +182,16 @@
       const dy = cursorY - nonCenterY;
       const dist = Math.hypot(dx, dy);
 
-      const THRESHOLD = 120; // distance d’alerte
+      const THRESHOLD = 120; // distance d'alerte
 
       if (dist < THRESHOLD) {
-        // Calcul d’une nouvelle position opposée à la direction du curseur
-        const angle = Math.atan2(dy, dx) + Math.PI; // direction opposée
-        const step = Math.max(80, THRESHOLD - dist + 40); // amplitude
+        // direction opposée au curseur
+        const angle = Math.atan2(dy, dx) + Math.PI;
+        const step = Math.max(80, THRESHOLD - dist + 40);
         let newLeft = (nonRect.left - zoneRect.left) + Math.cos(angle) * step;
         let newTop  = (nonRect.top  - zoneRect.top ) + Math.sin(angle) * step;
 
-        // Contrainte aux limites
+        // Contraindre aux limites
         const bw = nonRect.width;
         const bh = nonRect.height;
 
@@ -197,12 +203,12 @@
       }
     }
 
-    // Click sur "Oui" -> redirection
+    // Click sur "Oui" -> redirection vers page2.html
     btnOui.addEventListener('click', () => {
       window.location.href = 'page2.html';
     });
 
-    // Le “Non” fuit si on le survole ou s’en approche, et saute aléatoirement sur touch
+    // Le "Non" fuit si on le survole + s'il est approché, et saute aléatoirement sur tactile
     btnNon.addEventListener('mouseenter', moveNonRandom);
     zone.addEventListener('mousemove', fleeIfClose, { passive: true });
     btnNon.addEventListener('touchstart', (e) => {
@@ -210,13 +216,12 @@
       moveNonRandom();
     }, { passive: false });
 
-    // Positionnement initial après chargement image (important pour les tailles)
+    // Positionnement initial une fois que l'image est connue (utile pour les tailles)
     function initLayout() {
       centerButtons();
     }
 
     if (photo.complete) {
-      // L’image peut être déjà en cache
       initLayout();
     } else {
       photo.addEventListener('load', initLayout, { once: true });
