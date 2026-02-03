@@ -1,195 +1,88 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <title>Veux-tu être ma Valentine ? 💖</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <style>
-    :root {
-      --rose: #FF5AAC;
-      --white: #fff;
-      --green: #1e9e47;
-      --red: #e5242a;
-      --radius: 14px;
-      --shadow: 0 10px 20px rgba(0,0,0,.12);
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      text-align: center;
-      background: var(--rose);
-      color: var(--white);
-    }
-    .title-container {
-      display: flex;
-      justify-content: center;
-      align-items: baseline;
-      gap: 10px;
-      margin: 32px 16px 8px;
-      flex-wrap: wrap;
-    }
-    h1 { margin: 0; font-size: clamp(1.5rem, 2vw + 1rem, 2.2rem); line-height: 1.15; }
-    .small-text { font-size: .9rem; opacity: .9; }
+<meta charset="UTF-8">
+<title>Veux-tu être ma Valentine ? 💖</title>
+<style>
+  body { 
+    margin:0; 
+    font-family:Arial,sans-serif; 
+    text-align:center; 
+    background:#FF5AAC; /* fond rose */
+  }
+  .title-container { display:flex; justify-content:center; align-items:baseline; gap:10px; margin-top:40px; }
+  h1 { color:#ffffff; margin:0; }
+  .small-text { font-size:0.8em; color:white; }
+  img { margin-top:20px; max-width:80%; border-radius:15px; }
+  .zone { position:relative; width:756px; height:529px; margin:40px auto 0; }
 
-    /* Carte image + zone boutons */
-    .card {
-      position: relative;
-      max-width: 420px;                 /* <<< modifie ici la taille max de l’image (ex: 360 / 420 / 500 px) */
-      width: clamp(280px, 90vw, 420px);
-      margin: 16px auto 40px;
-      border-radius: var(--radius);
-      overflow: hidden;
-      box-shadow: var(--shadow);
-      background: #fff2f7;
-    }
-    .photo {
-      display: block;
-      width: 100%;
-      height: auto;
-      aspect-ratio: 756 / 529;          /* ratio d’origine pour éviter les sauts */
-      object-fit: cover;
-      user-select: none;
-      pointer-events: none;
-    }
-    .zone {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;             /* on réactive les events uniquement sur les boutons */
-    }
+  button {
+    padding:15px 40px;
+    font-size:18px;
+    border-radius:10px;
+    border:none;
+    cursor:pointer;
+    position:absolute;
+    user-select:none;
+  }
 
-    /* Boutons */
-    .btn {
-      position: absolute;
-      padding: 14px 34px;
-      font-size: 18px;
-      border-radius: 10px;
-      border: none;
-      cursor: pointer;
-      user-select: none;
-      color: #fff;
-      box-shadow: 0 6px 14px rgba(0,0,0,.15);
-      transition: transform .12s ease, box-shadow .12s ease;
-      pointer-events: auto;
-      outline: none;
-    }
-    #oui { background: var(--green); }
-    #non { background: var(--red); }
-    .btn:hover { transform: translateY(-2px); }
-    .btn:active { transform: translateY(0); }
-    .btn:focus-visible {
-      box-shadow: 0 0 0 3px rgba(255,255,255,.7), 0 6px 14px rgba(0,0,0,.15);
-    }
-    @media (prefers-reduced-motion: reduce) { .btn { transition: none; } }
-  </style>
+  #oui { background: green; color: white; }
+  #non { background: red; color: white; }
+</style>
 </head>
 <body>
-  <div class="title-container">
-    <h1>Veux-tu être ma Valentine ? 💖</h1>
-    <span class="small-text">test 7</span>
-  </div>
 
-  <div class="card" id="card">
-    <!-- On garde le nom avec espaces : l'image doit être dans le même dossier que index.html -->
-    <img id="photo" class="photo" src="homme noir plz.jpg" alt="Photo Valentine" />
+<div class="title-container">
+  <h1>Veux-tu être ma Valentine ? 💖</h1>
+  <span class="small-text">test 7</span>
+</div>
 
-    <!-- Zone qui recouvre l'image -->
-    <div class="zone" id="zone" aria-hidden="true">
-      <button id="oui" class="btn" aria-label="Oui">Oui</button>
-      <button id="non" class="btn" aria-label="Non">Non</button>
-    </div>
-  </div>
+<!-- Ton image JPG -->
+<img src="photo.jpg" alt="Photo Valentine">
 
-  <script>
-    const photo = document.getElementById('photo');
-    const zone  = document.getElementById('zone');
-    const btnOui = document.getElementById('oui');
-    const btnNon = document.getElementById('non');
+<div class="zone">
+  <button id="oui" onclick="location.href='page2.html'">Oui</button>
+  <button id="non">Non</button>
+</div>
 
-    const PADDING = 8;      // marge intérieure de sécurité
-    const BTN_W = 120;      // largeur approx pour centrage initial
-    const BTN_H = 52;       // hauteur approx pour centrage initial
+<script>
+const non = document.getElementById("non");
+const zone = document.querySelector(".zone");
+const padding = 5;
 
-    // Centre "Oui" (à gauche) et "Non" (à droite), au milieu vertical
-    function centerButtons() {
-      const rect = zone.getBoundingClientRect();
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
+function positionInitiale() {
+  const zoneWidth = zone.offsetWidth;
+  const zoneHeight = zone.offsetHeight;
+  const ouiWidth = 100;
+  const nonWidth = 100;
+  const btnHeight = 50;
+  const centerX = zoneWidth/2;
+  const centerY = zoneHeight/2;
+  document.getElementById("oui").style.left = (centerX - ouiWidth -10)+"px";
+  document.getElementById("oui").style.top = (centerY - btnHeight/2)+"px";
+  non.style.left = (centerX + 10)+"px";
+  non.style.top = (centerY - btnHeight/2)+"px";
+}
 
-      btnOui.style.left = (centerX - BTN_W - 10) + 'px';
-      btnOui.style.top  = (centerY - BTN_H / 2) + 'px';
+positionInitiale();
+window.addEventListener("resize", positionInitiale);
 
-      btnNon.style.left = (centerX + 10) + 'px';
-      btnNon.style.top  = (centerY - BTN_H / 2) + 'px';
-    }
+function bougerNon(){
+  const zoneWidth = zone.offsetWidth;
+  const zoneHeight = zone.offsetHeight;
+  const nonWidth = non.offsetWidth;
+  const nonHeight = non.offsetHeight;
+  const minX = padding;
+  const maxX = zoneWidth - nonWidth - padding;
+  const minY = padding;
+  const maxY = zoneHeight - nonHeight - padding;
+  non.style.left = (Math.random()*(maxX-minX)+minX) + "px";
+  non.style.top = (Math.random()*(maxY-minY)+minY) + "px";
+}
 
-    // Téléporte "Non" à un endroit aléatoire dans la zone
-    function moveNonRandom() {
-      const rect = zone.getBoundingClientRect();
-      const bw = btnNon.offsetWidth;
-      const bh = btnNon.offsetHeight;
+non.addEventListener("mouseenter", bougerNon);
+non.addEventListener("touchstart", bougerNon,{passive:false});
+</script>
 
-      const minX = PADDING;
-      const maxX = rect.width - bw - PADDING;
-      const minY = PADDING;
-      const maxY = rect.height - bh - PADDING;
-
-      const x = Math.random() * (maxX - minX) + minX;
-      const y = Math.random() * (maxY - minY) + minY;
-
-      btnNon.style.left = x + 'px';
-      btnNon.style.top  = y + 'px';
-    }
-
-    // Le bouton "Non" fuit si on s'approche (souris)
-    function fleeIfClose(e) {
-      const zoneRect = zone.getBoundingClientRect();
-      const nonRect = btnNon.getBoundingClientRect();
-
-      const cursorX = (e.touches ? e.touches[0].clientX : e.clientX);
-      const cursorY = (e.touches ? e.touches[0].clientY : e.clientY);
-
-      const nonCenterX = nonRect.left + nonRect.width / 2;
-      const nonCenterY = nonRect.top  + nonRect.height / 2;
-
-      const dx = cursorX - nonCenterX;
-      const dy = cursorY - nonCenterY;
-      const dist = Math.hypot(dx, dy);
-
-      const THRESHOLD = 120;
-
-      if (dist < THRESHOLD) {
-        const angle = Math.atan2(dy, dx) + Math.PI; // direction opposée
-        const step = Math.max(80, THRESHOLD - dist + 40);
-
-        let newLeft = (nonRect.left - zoneRect.left) + Math.cos(angle) * step;
-        let newTop  = (nonRect.top  - zoneRect.top ) + Math.sin(angle) * step;
-
-        // Contraintes aux bords
-        const bw = nonRect.width, bh = nonRect.height;
-        newLeft = Math.min(Math.max(PADDING, newLeft), zoneRect.width - bw - PADDING);
-        newTop  = Math.min(Math.max(PADDING, newTop),  zoneRect.height - bh - PADDING);
-
-        btnNon.style.left = newLeft + 'px';
-        btnNon.style.top  = newTop  + 'px';
-      }
-    }
-
-    // Redirection sur "Oui"
-    btnOui.addEventListener('click', () => { window.location.href = 'page2.html'; });
-
-    // "Non" fuit (hover et approche), et saute aléatoirement sur tactile
-    btnNon.addEventListener('mouseenter', moveNonRandom);
-    zone.addEventListener('mousemove', fleeIfClose, { passive: true });
-    btnNon.addEventListener('touchstart', (e) => { e.preventDefault(); moveNonRandom(); }, { passive: false });
-
-    // Positionnement initial après chargement de l'image (pour avoir les bonnes tailles)
-    function initLayout() { centerButtons(); }
-    if (photo.complete) { initLayout(); }
-    else { photo.addEventListener('load', initLayout, { once: true }); }
-
-    // Recalcule au redimensionnement
-    window.addEventListener('resize', initLayout);
-  </script>
 </body>
 </html>
