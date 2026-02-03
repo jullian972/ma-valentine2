@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Valentine 💖 – Tablette</title>
+
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: white;
+    text-align: center;
+  }
+
+  /* TITRE */
+  .title-container {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    gap: 10px;
+    margin-top: 40px;
+  }
+
+  h1 {
+    color: #ff3366;
+    margin: 0;
+  }
+
+  .small-text {
+    font-size: 0.8em;
+    color: gray;
+  }
+
+  /* IMAGE */
+  img {
+    margin-top: 20px;
+    max-width: 80%;
+    border-radius: 15px;
+  }
+
+  /* RECTANGLE INVISIBLE (20cm x 14cm) */
+  .zone {
+    position: relative;
+    width: 20cm;
+    height: 14cm;
+    margin: 40px auto 0;
+  }
+
+  .buttons {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    gap: 30px;
+  }
+
+  button {
+    padding: 15px 40px;
+    font-size: 18px;
+    border-radius: 10px;
+    border: none;
+    background: black;
+    color: white;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  #non {
+    position: absolute;
+  }
+</style>
+</head>
+
+<body>
+
+<div class="title-container">
+  <h1>Veux-tu être ma Valentine ? 💖</h1>
+  <span class="small-text">test 6</span>
+</div>
+
+<img src="https://via.placeholder.com/400x200.png?text=Ton+Image" alt="Image">
+
+<div class="zone">
+  <div class="buttons">
+    <button id="oui">Oui</button>
+    <button id="non">Non</button>
+  </div>
+</div>
+
+<script>
+const oui = document.getElementById("oui");
+const non = document.getElementById("non");
+const zone = document.querySelector(".zone");
+
+// position initiale : Non à côté de Oui
+function positionInitiale() {
+  const rOui = oui.getBoundingClientRect();
+  const rZone = zone.getBoundingClientRect();
+
+  non.style.left = (rOui.right - rZone.left + 30) + "px";
+  non.style.top = (rOui.top - rZone.top) + "px";
+}
+
+positionInitiale();
+window.addEventListener("resize", positionInitiale);
+
+// déplacement dans le rectangle 20x14 cm
+function bougerNon() {
+  const rZone = zone.getBoundingClientRect();
+  const rOui = oui.getBoundingClientRect();
+  const rNon = non.getBoundingClientRect();
+
+  const minX = rOui.right - rZone.left + 20;
+  const maxX = rZone.width - rNon.width;
+
+  const minY = 0;
+  const maxY = rZone.height - rNon.height;
+
+  const x = Math.random() * (maxX - minX) + minX;
+  const y = Math.random() * (maxY - minY) + minY;
+
+  non.style.left = x + "px";
+  non.style.top = y + "px";
+}
+
+// iPad = tactile
+non.addEventListener("touchstart", bougerNon);
+</script>
+
+</body>
+</html>
