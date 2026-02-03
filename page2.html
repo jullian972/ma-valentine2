@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Veux-tu être ma Valentine ? 💖</title>
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    background: white;
+    text-align: center;
+    margin: 0;
+    padding: 20px;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .title-container {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  h1 {
+    font-size: 2.5em;
+    color: #ff3366;
+    margin: 0;
+  }
+
+  .small-text {
+    font-size: 0.8em;
+    color: gray;
+  }
+
+  img {
+    max-width: 80%;
+    height: auto;
+    margin-bottom: 30px;
+    border-radius: 15px;
+  }
+
+  .button-container {
+    position: relative;
+    height: 60px; /* espace pour les boutons */
+  }
+
+  button {
+    padding: 15px 40px;
+    font-size: 18px;
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
+    background-color: black;
+    color: white;
+    transition: transform 0.2s;
+    position: absolute;
+  }
+
+  button#oui {
+    position: absolute; /* reste fixe */
+  }
+</style>
+</head>
+<body>
+
+<div class="title-container">
+  <h1>Veux-tu être ma Valentine ? 💖</h1>
+  <span class="small-text">test 4</span>
+</div>
+
+<img src="https://via.placeholder.com/400x200.png?text=Ton+Image+Ici" alt="Image de Valentine">
+
+<div class="button-container">
+  <button id="oui">Oui</button>
+  <button id="non">Non</button>
+</div>
+
+<script>
+const ouiBtn = document.getElementById('oui');
+const nonBtn = document.getElementById('non');
+
+// Met les boutons côte à côte au départ
+function positionInitiale() {
+  const containerRect = document.querySelector('.button-container').getBoundingClientRect();
+  ouiBtn.style.left = containerRect.width / 2 - ouiBtn.offsetWidth - 10 + 'px';
+  ouiBtn.style.top = '0px';
+
+  nonBtn.style.left = containerRect.width / 2 + 10 + 'px';
+  nonBtn.style.top = '0px';
+}
+
+// Appeler au chargement
+window.onload = positionInitiale;
+
+// Fonction pour bouger Non dans une zone plus grande
+function bouger() {
+  const ouiRect = ouiBtn.getBoundingClientRect();
+  const containerRect = document.querySelector('.button-container').getBoundingClientRect();
+
+  const maxX = containerRect.width - nonBtn.offsetWidth;
+  const maxY = 60 - nonBtn.offsetHeight; // limite verticale
+  const minX = 0;
+  const minY = 0;
+
+  let x, y;
+  do {
+    x = Math.random() * (maxX - minX) + minX;
+    y = Math.random() * (maxY - minY) + minY;
+  } while (
+    x < ouiRect.right - containerRect.left && x + nonBtn.offsetWidth > ouiRect.left - containerRect.left &&
+    y < ouiRect.bottom - containerRect.top && y + nonBtn.offsetHeight > ouiRect.top - containerRect.top
+  );
+
+  nonBtn.style.left = x + 'px';
+  nonBtn.style.top = y + 'px';
+}
+
+// Déplacement sur PC et tablette
+nonBtn.addEventListener('mouseenter', bouger);
+nonBtn.addEventListener('touchstart', bouger);
+</script>
+
+</body>
+</html>
