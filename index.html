@@ -10,18 +10,31 @@
     text-align:center; 
     background:#FF5AAC; /* fond rose */
   }
-  .title-container { display:flex; justify-content:center; align-items:baseline; gap:10px; margin-top:40px; }
+  .title-container { 
+    display:flex; 
+    justify-content:center; 
+    align-items:baseline; 
+    gap:10px; 
+    margin-top:40px; 
+  }
   h1 { color:#ffffff; margin:0; }
-  .small-text { font-size:0.8em; color:white; }
-  /* image plus petite et centrée */
+
+  /* Image plus petite et centrée */
   img { 
     display:block;
-    margin:20px auto; 
-    max-width:80%; 
-    height:auto; 
+    margin:20px auto;          /* centre l'image */
+    max-width:80%;
+    height:auto;
     border-radius:15px; 
   }
-  .zone { position:relative; width:756px; height:529px; margin:40px auto 0; }
+
+  /* Zone des boutons : rapprochée de la photo */
+  .zone { 
+    position:relative; 
+    width:756px; 
+    height:529px; 
+    margin:12px auto 0;        /* <<< réduit l’espace (avant: 40px) */
+  }
 
   button {
     padding:15px 40px;
@@ -41,11 +54,11 @@
 
 <div class="title-container">
   <h1>Veux-tu être ma Valentine ? 💖</h1>
-  <span class="small-text">test 7</span>
+  <!-- Texte "test 7" supprimé -->
 </div>
 
-<!-- Ici on pointe vers homme.jpg -->
-<img src="homme.jpg" alt="Photo Valentine">
+<!-- Ton image (on garde exactement le nom avec espaces et l'extension .png) -->
+<img src="homme noir plz.png" alt="Photo Valentine">
 
 <div class="zone">
   <button id="oui" onclick="location.href='page2.html'">Oui</button>
@@ -60,15 +73,20 @@ const padding = 5;
 function positionInitiale() {
   const zoneWidth = zone.offsetWidth;
   const zoneHeight = zone.offsetHeight;
+
+  const oui = document.getElementById("oui");
   const ouiWidth = 100;
-  const nonWidth = 100;
   const btnHeight = 50;
-  const centerX = zoneWidth/2;
-  const centerY = zoneHeight/2;
-  document.getElementById("oui").style.left = (centerX - ouiWidth -10)+"px";
-  document.getElementById("oui").style.top = (centerY - btnHeight/2)+"px";
-  non.style.left = (centerX + 10)+"px";
-  non.style.top = (centerY - btnHeight/2)+"px";
+
+  const centerX = zoneWidth / 2;
+  const centerY = zoneHeight / 2;
+
+  // Place "Oui" à gauche et "Non" à droite, centrés verticalement
+  oui.style.left = (centerX - ouiWidth - 10) + "px";
+  oui.style.top  = (centerY - btnHeight / 2) + "px";
+
+  non.style.left = (centerX + 10) + "px";
+  non.style.top  = (centerY - btnHeight / 2) + "px";
 }
 
 positionInitiale();
@@ -79,16 +97,18 @@ function bougerNon(){
   const zoneHeight = zone.offsetHeight;
   const nonWidth = non.offsetWidth;
   const nonHeight = non.offsetHeight;
+
   const minX = padding;
   const maxX = zoneWidth - nonWidth - padding;
   const minY = padding;
   const maxY = zoneHeight - nonHeight - padding;
-  non.style.left = (Math.random()*(maxX-minX)+minX) + "px";
-  non.style.top = (Math.random()*(maxY-minY)+minY) + "px";
+
+  non.style.left = (Math.random() * (maxX - minX) + minX) + "px";
+  non.style.top  = (Math.random() * (maxY - minY) + minY) + "px";
 }
 
 non.addEventListener("mouseenter", bougerNon);
-non.addEventListener("touchstart", bougerNon,{passive:false});
+non.addEventListener("touchstart", bougerNon, { passive: false });
 </script>
 
 </body>
