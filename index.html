@@ -4,57 +4,13 @@
 <meta charset="UTF-8">
 <title>Veux-tu être ma Valentine ? 💖</title>
 <style>
-  body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: white;
-    text-align: center;
-  }
-
-  .title-container {
-    display: flex;
-    justify-content: center;
-    align-items: baseline;
-    gap: 10px;
-    margin-top: 40px;
-  }
-
-  h1 {
-    color: #ff3366;
-    margin: 0;
-  }
-
-  .small-text {
-    font-size: 0.8em;
-    color: gray;
-  }
-
-  img {
-    margin-top: 20px;
-    max-width: 80%;
-    border-radius: 15px;
-  }
-
-  /* Rectangle invisible de 20cm x 14cm */
-  .zone {
-    position: relative;
-    width: 756px;   /* 20cm ≈ 756px */
-    height: 529px;  /* 14cm ≈ 529px */
-    margin: 40px auto 0;
-    border: none;
-  }
-
-  button {
-    padding: 15px 40px;
-    font-size: 18px;
-    border-radius: 10px;
-    border: none;
-    background: black;
-    color: white;
-    cursor: pointer;
-    user-select: none;
-    position: absolute;
-  }
+  body { margin:0; font-family:Arial,sans-serif; text-align:center; background:white; }
+  .title-container { display:flex; justify-content:center; align-items:baseline; gap:10px; margin-top:40px; }
+  h1 { color:#ff3366; margin:0; }
+  .small-text { font-size:0.8em; color:gray; }
+  img { margin-top:20px; max-width:80%; border-radius:15px; }
+  .zone { position:relative; width:756px; height:529px; margin:40px auto 0; }
+  button { padding:15px 40px; font-size:18px; border-radius:10px; border:none; background:black; color:white; cursor:pointer; position:absolute; user-select:none; }
 </style>
 </head>
 <body>
@@ -67,62 +23,47 @@
 <img src="https://via.placeholder.com/400x200.png?text=Ton+Image" alt="Image">
 
 <div class="zone">
-  <button id="oui">Oui</button>
+  <button id="oui" onclick="location.href='page2.html'">Oui</button>
   <button id="non">Non</button>
 </div>
 
 <script>
-const oui = document.getElementById("oui");
 const non = document.getElementById("non");
 const zone = document.querySelector(".zone");
+const padding = 5;
 
-// Position initiale côte à côte
 function positionInitiale() {
   const zoneWidth = zone.offsetWidth;
   const zoneHeight = zone.offsetHeight;
-
-  const ouiWidth = oui.offsetWidth;
-  const nonWidth = non.offsetWidth;
-
-  const centerX = zoneWidth / 2;
-  const centerY = zoneHeight / 2;
-
-  oui.style.left = (centerX - ouiWidth - 10) + "px";
-  oui.style.top = (centerY - oui.offsetHeight / 2) + "px";
-
-  non.style.left = (centerX + 10) + "px";
-  non.style.top = (centerY - non.offsetHeight / 2) + "px";
+  const ouiWidth = 100;
+  const nonWidth = 100;
+  const btnHeight = 50;
+  const centerX = zoneWidth/2;
+  const centerY = zoneHeight/2;
+  document.getElementById("oui").style.left = (centerX - ouiWidth -10)+"px";
+  document.getElementById("oui").style.top = (centerY - btnHeight/2)+"px";
+  non.style.left = (centerX + 10)+"px";
+  non.style.top = (centerY - btnHeight/2)+"px";
 }
 
 positionInitiale();
 window.addEventListener("resize", positionInitiale);
 
-// Déplacement du Non dans rectangle 20cm x 14cm
-function bougerNon(e) {
-  e.preventDefault();
-
+function bougerNon(){
   const zoneWidth = zone.offsetWidth;
   const zoneHeight = zone.offsetHeight;
-
   const nonWidth = non.offsetWidth;
   const nonHeight = non.offsetHeight;
-
-  // Limites fixes du rectangle
-  const minX = 0;
-  const maxX = zoneWidth - nonWidth;
-  const minY = 0;
-  const maxY = zoneHeight - nonHeight;
-
-  const x = Math.random() * (maxX - minX) + minX;
-  const y = Math.random() * (maxY - minY) + minY;
-
-  non.style.left = x + "px";
-  non.style.top = y + "px";
+  const minX = padding;
+  const maxX = zoneWidth - nonWidth - padding;
+  const minY = padding;
+  const maxY = zoneHeight - nonHeight - padding;
+  non.style.left = (Math.random()*(maxX-minX)+minX) + "px";
+  non.style.top = (Math.random()*(maxY-minY)+minY) + "px";
 }
 
-// Mouvement PC + tablette
 non.addEventListener("mouseenter", bougerNon);
-non.addEventListener("touchstart", bougerNon, { passive: false });
+non.addEventListener("touchstart", bougerNon,{passive:false});
 </script>
 
 </body>
