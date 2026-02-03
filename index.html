@@ -11,7 +11,6 @@
     text-align: center;
   }
 
-  /* TITRE */
   .title-container {
     display: flex;
     justify-content: center;
@@ -30,20 +29,19 @@
     color: gray;
   }
 
-  /* IMAGE */
   img {
     margin-top: 20px;
     max-width: 80%;
     border-radius: 15px;
   }
 
-  /* ZONE DES BOUTONS */
+  /* Rectangle invisible de 20cm x 14cm */
   .zone {
     position: relative;
-    width: 80%;
-    max-width: 600px;
-    height: 150px;
+    width: 756px;   /* 20cm ≈ 756px */
+    height: 529px;  /* 14cm ≈ 529px */
     margin: 40px auto 0;
+    border: none;
   }
 
   button {
@@ -86,7 +84,6 @@ function positionInitiale() {
   const ouiWidth = oui.offsetWidth;
   const nonWidth = non.offsetWidth;
 
-  // centre horizontal
   const centerX = zoneWidth / 2;
   const centerY = zoneHeight / 2;
 
@@ -100,7 +97,7 @@ function positionInitiale() {
 positionInitiale();
 window.addEventListener("resize", positionInitiale);
 
-// Déplacement du Non dans la zone
+// Déplacement du Non dans rectangle 20cm x 14cm
 function bougerNon(e) {
   e.preventDefault();
 
@@ -110,6 +107,7 @@ function bougerNon(e) {
   const nonWidth = non.offsetWidth;
   const nonHeight = non.offsetHeight;
 
+  // Limites fixes du rectangle
   const minX = 0;
   const maxX = zoneWidth - nonWidth;
   const minY = 0;
