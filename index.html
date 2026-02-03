@@ -12,7 +12,7 @@
     padding: 20px;
     height: 100vh;
     position: relative;
-    overflow: hidden; /* empêche le défilement horizontal */
+    overflow: hidden; /* empêche le défilement */
   }
 
   .title-container {
@@ -47,6 +47,7 @@
     gap: 30px;
     margin-top: 20px;
     position: relative;
+    height: 60px; /* espace pour les boutons */
   }
 
   button {
@@ -58,11 +59,11 @@
     background-color: black;
     color: white;
     transition: transform 0.2s;
-    position: absolute; /* pour que le bouton Non puisse bouger librement */
+    position: absolute; /* pour que Non puisse bouger librement */
   }
 
   button#oui {
-    position: relative; /* reste fixe pour Oui */
+    position: relative; /* reste fixe */
   }
 </style>
 </head>
@@ -70,7 +71,7 @@
 
 <div class="title-container">
   <h1>Veux-tu être ma Valentine ? 💖</h1>
-  <span class="small-text">test 2</span>
+  <span class="small-text">test 3</span>
 </div>
 
 <img src="https://via.placeholder.com/400x200.png?text=Ton+Image+Ici" alt="Image de Valentine">
@@ -84,36 +85,34 @@
 const nonBtn = document.getElementById('non');
 const ouiBtn = document.getElementById('oui');
 
-// Position initiale du bouton Oui
-const ouiRect = ouiBtn.getBoundingClientRect();
-nonBtn.style.left = (ouiRect.right + 30) + 'px';
-nonBtn.style.top = ouiRect.top + 'px';
+// Position initiale du bouton Non à côté de Oui
+function positionInitiale() {
+  const rectOui = ouiBtn.getBoundingClientRect();
+  nonBtn.style.left = (rectOui.right + 20) + 'px';
+  nonBtn.style.top = rectOui.top + 'px';
+}
 
-// Fonction pour bouger le bouton Non sans recouvrir Oui
+// Appeler au chargement
+positionInitiale();
+
+// Fonction pour bouger le bouton Non dans un périmètre limité
 function bouger() {
-  const maxX = window.innerWidth - nonBtn.offsetWidth;
-  const maxY = window.innerHeight - nonBtn.offsetHeight;
-  
-  let x, y;
-  const ouiRect = ouiBtn.getBoundingClientRect();
-  
-  do {
-    x = Math.random() * maxX;
-    y = Math.random() * maxY;
-  } while (
-    x < ouiRect.right && x + nonBtn.offsetWidth > ouiRect.left &&
-    y < ouiRect.bottom && y + nonBtn.offsetHeight > ouiRect.top
-  );
-
+  const rectOui = ouiBtn.getBoundingClientRect();
+  const maxX = rectOui.right + 150; // limite horizontale à droite
+  const minX = rectOui.right;        // ne pas recouvrir Oui
+  const maxY = rectOui.top + 50;    // limite verticale
+  const minY = rectOui.top - 50;    // limite verticale
+  const x = Math.random() * (maxX - minX) + minX;
+  const y = Math.random() * (maxY - minY) + minY;
   nonBtn.style.left = x + 'px';
   nonBtn.style.top = y + 'px';
 }
 
-// Bouge sur PC et tablette
+// Bouge seulement au survol ou au toucher
 nonBtn.addEventListener('mouseenter', bouger);
 nonBtn.addEventListener('touchstart', bouger);
 
-// Le bouton Oui ne fait rien pour l'instant
+// Bouton Oui reste inactif pour l'instant
 </script>
 
 </body>
