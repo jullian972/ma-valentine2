@@ -1,99 +1,229 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<title>Veux-tu être ma Valentine ? 💖</title>
-<style>
-  body { 
-    margin:0; 
-    font-family:Arial,sans-serif; 
-    text-align:center; 
-    background:#FF5AAC; /* fond rose */
-  }
-  .title-container { display:flex; justify-content:center; align-items:baseline; gap:10px; margin-top:40px; }
-  h1 { color:#ffffff; margin:0; }
-  .small-text { font-size:0.8em; color:white; }
-  img { 
-    width:100%; 
-    height:auto; 
-    max-width:none; 
-    border-radius:15px; 
-    margin-top:20px; 
-  }
-  .zone { 
-    position:relative; 
-    width:756px; 
-    height:529px; 
-    margin:20px auto 0; /* réduit la marge top pour rapprocher les boutons de la photo */
-  }
+  <meta charset="UTF-8" />
+  <title>Veux-tu être ma Valentine ? 💖</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --rose:#FF5AAC;
+      --white:#fff;
+      --green:#1e9e47;
+      --red:#e5242a;
+      --radius:14px;
+      --shadow:0 10px 20px rgba(0,0,0,.12);
+    }
 
-  button {
-    padding:15px 40px;
-    font-size:18px;
-    border-radius:10px;
-    border:none;
-    cursor:pointer;
-    position:absolute;
-    user-select:none;
-  }
+    * { box-sizing: border-box; }
 
-  #oui { background: green; color: white; }
-  #non { background: red; color: white; }
-</style>
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      text-align: center;
+      background: var(--rose);
+      color: var(--white);
+    }
+
+    .container {
+      max-width: 820px;
+      margin: 24px auto 48px;
+      padding: 0 16px;
+    }
+
+    .title-container {
+      display: flex;
+      justify-content: center;
+      align-items: baseline;
+      gap: 10px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.5rem, 2vw + 1rem, 2.2rem);
+      line-height: 1.15;
+    }
+
+    .small-text {
+      font-size: .9rem;
+      opacity: .9;
+    }
+
+    .card {
+      position: relative; /* pour superposer la zone sur l'image */
+      margin-top: 16px;
+      border-radius: var(--radius);
+      overflow: hidden; /* pour arrondir aussi l'image et la zone */
+      box-shadow: var(--shadow);
+      background: #fff2f7; /* petite bordure douce autour si l'image ne remplit pas tout */
+    }
+
+    .photo {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 756 / 529;           /* même ratio que ta zone d'origine */
+      object-fit: cover;                  /* couvre proprement */
+    }
+
+    .zone {
+      position: absolute; /* se cale sur la photo */
+      inset: 0;           /* occupe exactement la surface de l'image */
+      pointer-events: none; /* évite que la zone bloque les interactions sauf sur les boutons */
+    }
+
+    .btn {
+      position: absolute;
+      padding: 14px 34px;
+      font-size: 18px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      user-select: none;
+      color: #fff;
+      box-shadow: 0 6px 14px rgba(0,0,0,.15);
+      transition: transform .12s ease, box-shadow .12s ease;
+      pointer-events: auto; /* réactive les events sur les boutons */
+      outline: none;
+    }
+
+    .btn:focus-visible {
+      box-shadow: 0 0 0 3px rgba(255,255,255,.7), 0 6px 14px rgba(0,0,0,.15);
+    }
+
+    #oui { background: var(--green); }
+    #non { background: var(--red); }
+
+    .btn:hover { transform: translateY(-2px); }
+    .btn:active { transform: translateY(0); }
+
+    @media (prefers-reduced-motion: reduce) {
+      .btn { transition: none; }
+    }
+  </style>
 </head>
 <body>
 
-<div class="title-container">
-  <h1>Veux-tu être ma Valentine ? 💖</h1>
-  <span class="small-text">test 7</span>
-</div>
+  <div class="container">
+    <div class="title-container">
+      <h1>Veux-tu être ma Valentine ? 💖</h1>
+      <span class="small-text">édition spéciale</span>
+    </div>
 
-<!-- Ton image JPG -->
-<img src="homme noir plz.jpg" alt="Photo Valentine">
+    <div class="card" id="card">
+      <!-- Remplace le src par le bon chemin (évite espaces/accents si possible) -->
+      <img class="photo" id="photo" src="homme-noir-plz.jpg" alt="Photo Valentine" />
+      <div class="zone" id="zone" aria-hidden="true">
+        <button id="oui" class="btn" aria-label="Oui">Oui</button>
+        <button id="non" class="btn" aria-label="Non">Non</button>
+      </div>
+    </div>
+  </div>
 
-<div class="zone">
-  <button id="oui" onclick="location.href='page2.html'">Oui</button>
-  <button id="non">Non</button>
-</div>
+  <script>
+    const photo = document.getElementById('photo');
+    const zone  = document.getElementById('zone');
+    const btnOui = document.getElementById('oui');
+    const btnNon = document.getElementById('non');
 
-<script>
-const non = document.getElementById("non");
-const zone = document.querySelector(".zone");
-const padding = 5;
+    const PADDING = 8;      // marge intérieure de sécurité
+    const BTN_W = 120;      // largeur approx utilisée pour le centrage initial (sera ajustée après rendu)
+    const BTN_H = 52;
 
-function positionInitiale() {
-  const zoneWidth = zone.offsetWidth;
-  const zoneHeight = zone.offsetHeight;
-  const ouiWidth = 100;
-  const nonWidth = 100;
-  const btnHeight = 50;
-  const centerX = zoneWidth/2;
-  const centerY = zoneHeight/2;
-  document.getElementById("oui").style.left = (centerX - ouiWidth -10)+"px";
-  document.getElementById("oui").style.top = (centerY - btnHeight/2)+"px";
-  non.style.left = (centerX + 10)+"px";
-  non.style.top = (centerY - btnHeight/2)+"px";
-}
+    function centerButtons() {
+      const rect = zone.getBoundingClientRect();
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
 
-positionInitiale();
-window.addEventListener("resize", positionInitiale);
+      // placer Oui à gauche, Non à droite
+      btnOui.style.left = (centerX - BTN_W - 10) + 'px';
+      btnOui.style.top  = (centerY - BTN_H / 2) + 'px';
 
-function bougerNon(){
-  const zoneWidth = zone.offsetWidth;
-  const zoneHeight = zone.offsetHeight;
-  const nonWidth = non.offsetWidth;
-  const nonHeight = non.offsetHeight;
-  const minX = padding;
-  const maxX = zoneWidth - nonWidth - padding;
-  const minY = padding;
-  const maxY = zoneHeight - nonHeight - padding;
-  non.style.left = (Math.random()*(maxX-minX)+minX) + "px";
-  non.style.top = (Math.random()*(maxY-minY)+minY) + "px";
-}
+      btnNon.style.left = (centerX + 10) + 'px';
+      btnNon.style.top  = (centerY - BTN_H / 2) + 'px';
+    }
 
-non.addEventListener("mouseenter", bougerNon);
-non.addEventListener("touchstart", bougerNon,{passive:false});
-</script>
+    function moveNonRandom() {
+      const rect = zone.getBoundingClientRect();
+      const bw = btnNon.offsetWidth;
+      const bh = btnNon.offsetHeight;
 
+      const minX = PADDING;
+      const maxX = rect.width - bw - PADDING;
+      const minY = PADDING;
+      const maxY = rect.height - bh - PADDING;
+
+      const x = Math.random() * (maxX - minX) + minX;
+      const y = Math.random() * (maxY - minY) + minY;
+
+      btnNon.style.left = x + 'px';
+      btnNon.style.top  = y + 'px';
+    }
+
+    // Variante plus fun : le bouton “Non” fuit le curseur si on s'approche à moins de 120 px
+    function fleeIfClose(e) {
+      const zoneRect = zone.getBoundingClientRect();
+      const nonRect = btnNon.getBoundingClientRect();
+
+      const cursorX = (e.touches ? e.touches[0].clientX : e.clientX);
+      const cursorY = (e.touches ? e.touches[0].clientY : e.clientY);
+
+      const nonCenterX = nonRect.left + nonRect.width / 2;
+      const nonCenterY = nonRect.top  + nonRect.height / 2;
+
+      const dx = cursorX - nonCenterX;
+      const dy = cursorY - nonCenterY;
+      const dist = Math.hypot(dx, dy);
+
+      const THRESHOLD = 120; // distance d’alerte
+
+      if (dist < THRESHOLD) {
+        // Calcul d’une nouvelle position opposée à la direction du curseur
+        const angle = Math.atan2(dy, dx) + Math.PI; // direction opposée
+        const step = Math.max(80, THRESHOLD - dist + 40); // amplitude
+        let newLeft = (nonRect.left - zoneRect.left) + Math.cos(angle) * step;
+        let newTop  = (nonRect.top  - zoneRect.top ) + Math.sin(angle) * step;
+
+        // Contrainte aux limites
+        const bw = nonRect.width;
+        const bh = nonRect.height;
+
+        newLeft = Math.min(Math.max(PADDING, newLeft), zoneRect.width - bw - PADDING);
+        newTop  = Math.min(Math.max(PADDING, newTop),  zoneRect.height - bh - PADDING);
+
+        btnNon.style.left = newLeft + 'px';
+        btnNon.style.top  = newTop  + 'px';
+      }
+    }
+
+    // Click sur "Oui" -> redirection
+    btnOui.addEventListener('click', () => {
+      window.location.href = 'page2.html';
+    });
+
+    // Le “Non” fuit si on le survole ou s’en approche, et saute aléatoirement sur touch
+    btnNon.addEventListener('mouseenter', moveNonRandom);
+    zone.addEventListener('mousemove', fleeIfClose, { passive: true });
+    btnNon.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      moveNonRandom();
+    }, { passive: false });
+
+    // Positionnement initial après chargement image (important pour les tailles)
+    function initLayout() {
+      centerButtons();
+    }
+
+    if (photo.complete) {
+      // L’image peut être déjà en cache
+      initLayout();
+    } else {
+      photo.addEventListener('load', initLayout, { once: true });
+    }
+
+    // Recalcule au redimensionnement
+    window.addEventListener('resize', initLayout);
+  </script>
 </body>
 </html>
