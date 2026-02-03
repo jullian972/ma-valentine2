@@ -2,34 +2,48 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Choix de l’appareil</title>
-
+<title>Veux-tu être ma Valentine ? 💖</title>
 <style>
   body {
+    margin: 0;
     font-family: Arial, sans-serif;
     background: white;
     text-align: center;
-    height: 100vh;
-    margin: 0;
+  }
+
+  /* TITRE */
+  .title-container {
     display: flex;
-    flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: baseline;
+    gap: 10px;
+    margin-top: 40px;
   }
 
   h1 {
-    margin-bottom: 5px;
+    color: #ff3366;
+    margin: 0;
   }
 
   .small-text {
     font-size: 0.8em;
     color: gray;
-    margin-bottom: 30px;
   }
 
-  .buttons {
-    display: flex;
-    gap: 30px;
+  /* IMAGE */
+  img {
+    margin-top: 20px;
+    max-width: 80%;
+    border-radius: 15px;
+  }
+
+  /* ZONE DES BOUTONS */
+  .zone {
+    position: relative;
+    width: 80%;
+    max-width: 600px;
+    height: 150px;
+    margin: 40px auto 0;
   }
 
   button {
@@ -40,19 +54,78 @@
     background: black;
     color: white;
     cursor: pointer;
+    user-select: none;
+    position: absolute;
   }
 </style>
 </head>
-
 <body>
 
-<h1>Tu es sur quoi ?</h1>
-<div class="small-text">test 6</div>
-
-<div class="buttons">
-  <button onclick="location.href='page2.html'">PC</button>
-  <button onclick="location.href='page3.html'">Tablette</button>
+<div class="title-container">
+  <h1>Veux-tu être ma Valentine ? 💖</h1>
+  <span class="small-text">test 6</span>
 </div>
+
+<img src="https://via.placeholder.com/400x200.png?text=Ton+Image" alt="Image">
+
+<div class="zone">
+  <button id="oui">Oui</button>
+  <button id="non">Non</button>
+</div>
+
+<script>
+const oui = document.getElementById("oui");
+const non = document.getElementById("non");
+const zone = document.querySelector(".zone");
+
+// Position initiale côte à côte
+function positionInitiale() {
+  const zoneWidth = zone.offsetWidth;
+  const zoneHeight = zone.offsetHeight;
+
+  const ouiWidth = oui.offsetWidth;
+  const nonWidth = non.offsetWidth;
+
+  // centre horizontal
+  const centerX = zoneWidth / 2;
+  const centerY = zoneHeight / 2;
+
+  oui.style.left = (centerX - ouiWidth - 10) + "px";
+  oui.style.top = (centerY - oui.offsetHeight / 2) + "px";
+
+  non.style.left = (centerX + 10) + "px";
+  non.style.top = (centerY - non.offsetHeight / 2) + "px";
+}
+
+positionInitiale();
+window.addEventListener("resize", positionInitiale);
+
+// Déplacement du Non dans la zone
+function bougerNon(e) {
+  e.preventDefault();
+
+  const zoneWidth = zone.offsetWidth;
+  const zoneHeight = zone.offsetHeight;
+
+  const nonWidth = non.offsetWidth;
+  const nonHeight = non.offsetHeight;
+
+  const minX = 0;
+  const maxX = zoneWidth - nonWidth;
+  const minY = 0;
+  const maxY = zoneHeight - nonHeight;
+
+  const x = Math.random() * (maxX - minX) + minX;
+  const y = Math.random() * (maxY - minY) + minY;
+
+  non.style.left = x + "px";
+  non.style.top = y + "px";
+}
+
+// Mouvement PC + tablette
+non.addEventListener("mouseenter", bougerNon);
+non.addEventListener("touchstart", bougerNon, { passive: false });
+</script>
 
 </body>
 </html>
