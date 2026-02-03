@@ -13,8 +13,19 @@
   .title-container { display:flex; justify-content:center; align-items:baseline; gap:10px; margin-top:40px; }
   h1 { color:#ffffff; margin:0; }
   .small-text { font-size:0.8em; color:white; }
-  img { margin-top:20px; max-width:95%; border-radius:15px; } /* image plus grande */
-  .zone { position:relative; width:756px; height:529px; margin:40px auto 0; }
+  img { 
+    width:100%; 
+    height:auto; 
+    max-width:none; 
+    border-radius:15px; 
+    margin-top:20px; 
+  }
+  .zone { 
+    position:relative; 
+    width:756px; 
+    height:529px; 
+    margin:20px auto 0; /* réduit la marge top pour rapprocher les boutons de la photo */
+  }
 
   button {
     padding:15px 40px;
@@ -37,8 +48,8 @@
   <span class="small-text">test 7</span>
 </div>
 
-<!-- Ton image JPG plus grande -->
-<img src="homme noir plz.jpg" alt="Photo Valentine" style="width:90vw; max-width:800px; border-radius:15px;">
+<!-- Ton image JPG -->
+<img src="homme noir plz.jpg" alt="Photo Valentine">
 
 <div class="zone">
   <button id="oui" onclick="location.href='page2.html'">Oui</button>
