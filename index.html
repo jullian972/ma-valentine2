@@ -13,23 +13,8 @@
   .title-container { display:flex; justify-content:center; align-items:baseline; gap:10px; margin-top:40px; }
   h1 { color:#ffffff; margin:0; }
   .small-text { font-size:0.8em; color:white; }
-
-  /* Image plus petite + centrée */
-  img { 
-    display:block;
-    margin:20px auto;
-    max-width:80%; 
-    height:auto;
-    border-radius:15px;
-  }
-
-  /* Zone d’origine (pas modifiée) */
-  .zone { 
-    position:relative; 
-    width:756px; 
-    height:529px; 
-    margin:40px auto 0; 
-  }
+  img { margin-top:20px; max-width:80%; border-radius:15px; }
+  .zone { position:relative; width:756px; height:529px; margin:40px auto 0; }
 
   button {
     padding:15px 40px;
@@ -52,11 +37,11 @@
   <span class="small-text">test 7</span>
 </div>
 
-<!-- Ton image JPG (nom exact avec ESAPCES : homme noir plz.jpg) -->
-homme noir plz.jpg
+<!-- GIF Lilo & Stitch -->
+<img src="https://media.giphy.com/media/WRQBXSCnEFUVq/giphy.gif" alt="Lilo & Stitch GIF">
 
 <div class="zone">
-  page2.htmlOui</button>
+  <button id="oui" onclick="location.href='page2.html'">Oui</button>
   <button id="non">Non</button>
 </div>
 
