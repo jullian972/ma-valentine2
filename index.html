@@ -8,7 +8,6 @@
 body { 
   margin: 0; 
   font-family: Arial, sans-serif; 
-  text-align: center; 
   background: #FF5AAC;
   display: flex;
   justify-content: center;
@@ -24,25 +23,24 @@ body {
   padding: 30px;
   box-shadow: 0 10px 25px rgba(0,0,0,0.2);
   position: relative;
+  text-align: center;
 }
 
 h1 {
   color: #FF5AAC;
-  margin: 10px 0 20px;
+  margin-bottom: 15px;
 }
 
 img { 
-  display: block;
-  margin: 20px auto; 
-  max-width: 80%; 
-  border-radius: 15px; 
+  max-width: 80%;
+  border-radius: 15px;
+  margin-bottom: 20px;
 }
 
 .zone {
   position: relative;
   width: 100%;
-  height: 120px;
-  margin-top: 20px;
+  height: 140px;
 }
 
 button {
@@ -53,12 +51,17 @@ button {
   cursor: pointer;
   position: absolute;
   user-select: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.25);
 }
 
 #oui {
   background: green;
   color: white;
-  transition: transform 0.2s ease;
 }
 
 #non {
@@ -66,10 +69,10 @@ button {
   color: white;
 }
 
+/* Texte avertissement */
 #avertissement {
   position: absolute;
   color: red;
-  font-size: 16px;
   font-weight: bold;
   white-space: nowrap;
   pointer-events: none;
@@ -89,12 +92,11 @@ button {
   margin-right: 6px;
 }
 
-/* Texte du bas */
-#hint {
-  margin-top: 25px;
-  font-size: 16px;
-  font-weight: bold;
-  color: #FF5AAC;
+/* Texte bas */
+.bottom-text {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #777;
 }
 </style>
 </head>
@@ -112,8 +114,9 @@ button {
     <div id="avertissement"><span>↩</span>Pitié n'appuie pas là</div>
   </div>
 
-  <!-- Texte en bas du rectangle -->
-  <div id="hint">Essaye quand même le non 👀</div>
+  <div class="bottom-text">
+    Essaye quand même le non 👀
+  </div>
 </div>
 
 <script>
@@ -131,12 +134,12 @@ function positionInitiale() {
   const zoneWidth = zone.offsetWidth;
   const zoneHeight = zone.offsetHeight;
 
-  const btnWidth = 100;
-  const btnHeight = 50;
-  const space = 30;
+  const btnWidth = oui.offsetWidth;
+  const btnHeight = oui.offsetHeight;
+  const space = 40;
 
   const centerX = zoneWidth / 2;
-  const centerY = zoneHeight / 2 + 10;
+  const centerY = zoneHeight / 2;
 
   oui.style.left = (centerX - btnWidth - space) + "px";
   oui.style.top = (centerY - btnHeight / 2) + "px";
@@ -146,48 +149,54 @@ function positionInitiale() {
 
   avertissement.style.left = (non.offsetLeft + non.offsetWidth + 10) + "px";
   avertissement.style.top =
-    non.offsetTop +
-    non.offsetHeight / 2 -
-    avertissement.offsetHeight / 2 +
-    "px";
+    non.offsetTop + non.offsetHeight / 2 - avertissement.offsetHeight / 2 + "px";
 }
 
 positionInitiale();
 window.addEventListener("resize", positionInitiale);
 
-function bougerNon() {
-  const maxX = zone.offsetWidth - non.offsetWidth - padding;
-  const maxY = zone.offsetHeight - non.offsetHeight - padding;
+function chevaucheOui(x, y) {
+  const ouiRect = oui.getBoundingClientRect();
+  const zoneRect = zone.getBoundingClientRect();
 
-  non.style.left = Math.random() * maxX + "px";
-  non.style.top = Math.random() * maxY + "px";
+  const nonRect = {
+    left: zoneRect.left + x,
+    right: zoneRect.left + x + non.offsetWidth,
+    top: zoneRect.top + y,
+    bottom: zoneRect.top + y + non.offsetHeight
+  };
+
+  return !(
+    nonRect.right < ouiRect.left ||
+    nonRect.left > ouiRect.right ||
+    nonRect.bottom < ouiRect.top ||
+    nonRect.top > ouiRect.bottom
+  );
+}
+
+function bougerNon() {
+  let x, y;
+  let essais = 0;
+
+  do {
+    x = Math.random() * (zone.offsetWidth - non.offsetWidth - padding);
+    y = Math.random() * (zone.offsetHeight - non.offsetHeight - padding);
+    essais++;
+  } while (chevaucheOui(x, y) && essais < 50);
+
+  non.style.left = x + "px";
+  non.style.top = y + "px";
 
   if (scaleOui < maxScale) {
     scaleOui += scaleStep;
     oui.style.transform = `scale(${scaleOui})`;
   }
 
-  if (avertissement.style.display !== "none") {
-    avertissement.style.left = (non.offsetLeft + non.offsetWidth + 10) + "px";
-    avertissement.style.top =
-      non.offsetTop +
-      non.offsetHeight / 2 -
-      avertissement.offsetHeight / 2 +
-      "px";
-  }
-}
-
-function cacherAvertissement() {
   avertissement.style.display = "none";
-  non.removeEventListener("mouseenter", cacherAvertissement);
-  non.removeEventListener("touchstart", cacherAvertissement);
 }
 
 non.addEventListener("mouseenter", bougerNon);
 non.addEventListener("touchstart", bougerNon, { passive: false });
-
-non.addEventListener("mouseenter", cacherAvertissement);
-non.addEventListener("touchstart", cacherAvertissement, { passive: false });
 
 oui.addEventListener("click", () => {
   window.location.href = "page2.html";
