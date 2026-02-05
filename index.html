@@ -2,111 +2,134 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Question importante 💖</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Veux-tu être ma Valentine ? 💖</title>
 
   <style>
-    :root {
-      --rose: #FF5AAC;
-      --white: #ffffff;
-      --green: #1e9e47;
-      --red: #e53935;
-      --radius: 18px;
-    }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background: var(--rose);
+    body { 
+      margin: 0; 
+      font-family: Arial, sans-serif; 
+      background: #FF5AAC;
       display: flex;
+      justify-content: center;
       align-items: center;
-      justify-content: center;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      padding: 16px;
+      min-height: 100vh;
     }
 
-    .card {
-      background: var(--white);
-      border-radius: var(--radius);
-      padding: 32px 28px;
-      height: 480px;
-      width: 90%;
-      max-width: 420px;
-      box-shadow: 0 12px 30px rgba(0,0,0,.15);
+    .container {
+      background: white;
+      border-radius: 20px;
+      width: 780px;
+      height: 520px;
+      padding: 30px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      position: relative;
       text-align: center;
-      position: relative; /* IMPORTANT */
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
     }
 
     h1 {
-      margin: 0 0 20px;
-      color: var(--rose);
-      font-size: 1.8rem;
+      color: #FF5AAC;
+      margin: 10px 0 20px;
     }
 
-    .buttons {
-      display: flex;
-      gap: 24px;
+    img { 
+      display: block;
+      margin: 20px auto; 
+      max-width: 80%; 
+      border-radius: 15px; 
+    }
+
+    .zone {
+      position: relative;
+      width: 100%;
+      height: 150px;
       margin-top: 20px;
     }
 
-    .btn {
-      flex: 1;
-      padding: 14px 0;
-      border-radius: 12px;
+    button {
+      padding: 15px 40px;
+      font-size: 18px;
+      border-radius: 10px;
       border: none;
-      font-size: 1rem;
-      font-weight: 600;
       cursor: pointer;
+      position: absolute;
+      user-select: none;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
-    .btn.yes {
-      background: var(--green);
-      color: var(--white);
+    #oui {
+      background: green;
+      color: white;
+      left: 50%;
+      top: 50%;
+      transform: translate(-140%, -50%);
     }
 
-    .btn.no {
-      background: var(--red);
-      color: var(--white);
+    #oui:hover {
+      transform: translate(-140%, -50%) scale(1.08);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.25);
     }
 
-    .btn:hover {
-      transform: scale(1.05);
-      box-shadow: 0 6px 15px rgba(0,0,0,.25);
-    }
-
-    /* TEXTE DU BAS */
-    .bottom-text {
-      position: absolute;
-      bottom: 14px; /* PLUS BAS ICI */
-      left: 0;
-      right: 0;
-      font-size: 0.85rem;
-      color: #999;
+    #non {
+      background: red;
+      color: white;
+      left: 50%;
+      top: 50%;
+      transform: translate(40%, -50%);
     }
   </style>
 </head>
 
 <body>
 
-  <div class="card">
-    <h1>Tu veux être ma Valentine ? 💘</h1>
+  <div class="container">
+    <h1>Veux-tu être ma Valentine ? 💖</h1>
 
-    <div class="buttons">
-      <a href="page2.html">
-        <button class="btn yes">Oui 💖</button>
-      </a>
+    <img src="homme.jpg" alt="Photo Valentine">
 
-      <button class="btn no">Non 😢</button>
-    </div>
-
-    <div class="bottom-text">
-      essaye quand même le non
+    <div class="zone">
+      <button id="oui">Oui</button>
+      <button id="non">Non</button>
     </div>
   </div>
+
+  <script>
+    const oui = document.getElementById("oui");
+    const non = document.getElementById("non");
+    const zone = document.querySelector(".zone");
+
+    function collision(a, b) {
+      const r1 = a.getBoundingClientRect();
+      const r2 = b.getBoundingClientRect();
+      return !(
+        r1.right < r2.left ||
+        r1.left > r2.right ||
+        r1.bottom < r2.top ||
+        r1.top > r2.bottom
+      );
+    }
+
+    function bougerNon() {
+      const maxX = zone.clientWidth - non.offsetWidth;
+      const maxY = zone.clientHeight - non.offsetHeight;
+
+      let x, y, essais = 0;
+
+      do {
+        x = Math.random() * maxX;
+        y = Math.random() * maxY;
+        non.style.left = x + "px";
+        non.style.top = y + "px";
+        essais++;
+      } while (collision(non, oui) && essais < 50);
+    }
+
+    non.addEventListener("mouseenter", bougerNon);
+    non.addEventListener("touchstart", bougerNon);
+
+    oui.addEventListener("click", () => {
+      window.location.href = "page2.html";
+    });
+  </script>
 
 </body>
 </html>
