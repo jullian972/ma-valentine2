@@ -1,161 +1,174 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Choisis 💕</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<title>Confirmation 💖</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <style>
-    :root {
-      --rose: #FF5AAC;
-      --white: #ffffff;
-      --green: #1e9e47;
-      --red: #e53935;
-      --radius: 18px;
-    }
+<style>
+:root {
+  --rose: #FF5AAC;
+  --white: #ffffff;
+  --green: #1e9e47;
+  --red: #e53935;
+  --radius: 18px;
+}
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background: var(--rose);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      padding: 16px;
-    }
+/* Général */
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--rose);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  padding: 16px;
+}
 
-    /* Rectangle blanc avec animation */
-    .card {
-      background: var(--white);
-      border-radius: var(--radius);
-      padding: 32px 28px;
-      height: 480px;
-      width: 90%;
-      max-width: 420px;
-      box-shadow: 0 12px 30px rgba(0,0,0,.15);
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+/* Rectangle blanc */
+.card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 32px 28px;
+  height: 480px;
+  width: 90%;
+  max-width: 420px;
+  box-shadow: 0 12px 30px rgba(0,0,0,.15);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  opacity: 0;
+  transform: scale(0.95);
+  animation: appear 0.4s ease-out forwards;
+}
 
-      opacity: 0;
-      transform: scale(0.95);
-      animation: appear 0.4s ease-out forwards;
-    }
+@keyframes appear {
+  to { opacity: 1; transform: scale(1); }
+}
 
-    @keyframes appear {
-      to {
-        opacity: 1;
-        transform: scale(1);
-      }
-    }
+h1 { margin: 0; color: var(--rose); font-size: 1.8rem; }
+p { margin: 12px 0 12px; color: #555; font-size: 1rem; }
 
-    h1 {
-      margin: 0;
-      color: var(--rose);
-      font-size: 1.8rem;
-    }
+/* Image */
+.photo {
+  max-width: 90%;
+  max-height: 220px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
 
-    p {
-      margin: 12px 0 12px;
-      color: #555;
-      font-size: 1rem;
-    }
+/* Boutons */
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 10px;
+  margin-top: -10px;
+}
 
-    /* Image */
-    .photo {
-      max-width: 90%;
-      max-height: 220px;
-      object-fit: cover;
-      border-radius: 12px;
-      margin-bottom: 12px;
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-    }
+.btn {
+  flex: 1;
+  padding: 14px 0;
+  border-radius: 12px;
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
 
-    /* Boutons principaux */
-    .buttons {
-      display: flex;
-      justify-content: space-between;
-      gap: 24px;
-      margin-bottom: 10px;
-      margin-top: -10px;
-    }
+.btn.netflix { background: var(--green); color: var(--white); }
+.btn.outdoor { background: var(--red); color: var(--white); }
 
-    .btn {
-      flex: 1;
-      padding: 14px 0;
-      border-radius: 12px;
-      border: none;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
+.btn:hover { transform: scale(1.05); box-shadow: 0 6px 15px rgba(0,0,0,0.25); }
 
-    .btn.netflix {
-      background: var(--green);
-      color: var(--white);
-    }
+/* Animation confettis */
+.confetti {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: gold;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0.9;
+  animation: fall 1s linear forwards;
+}
 
-    .btn.outdoor {
-      background: var(--red);
-      color: var(--white);
-    }
+@keyframes fall {
+  0% { transform: translateY(0) rotate(0deg); opacity:1; }
+  100% { transform: translateY(200px) rotate(360deg); opacity:0; }
+}
 
-    .btn.netflix:hover,
-    .btn.outdoor:hover {
-      transform: scale(1.05);
-      box-shadow: 0 6px 15px rgba(0,0,0,0.25);
-    }
+/* Texte de résultat */
+.result {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--rose);
+  margin-top: 20px;
+  opacity: 0;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
 
-    /* Responsive pour petit écran */
-    @media (max-width: 400px) {
-      .card {
-        height: auto; /* hauteur automatique pour s’adapter au contenu */
-        padding: 24px 16px;
-      }
+.result.show {
+  opacity: 1;
+  transform: scale(1.1);
+}
 
-      .buttons {
-        flex-direction: column; /* boutons empilés */
-        gap: 16px;
-      }
-
-      .btn {
-        font-size: 0.95rem; /* légèrement plus petit */
-      }
-
-      .photo {
-        max-height: 180px; /* réduit un peu pour mobile */
-      }
-    }
-  </style>
+/* Responsive */
+@media (max-width: 400px) {
+  .card { height: auto; padding: 24px 16px; }
+  .buttons { flex-direction: column; gap: 16px; }
+  .btn { font-size: 0.95rem; }
+  .photo { max-height: 180px; }
+}
+</style>
 </head>
 
 <body>
-
-  <div class="card">
-    <div>
-      <h1>Alors dis-moi</h1>
-      <p>Que préfères-tu faire ma star ?</p>
-      <img src="hm.jpg" alt="Photo" class="photo">
-    </div>
-
-    <div class="buttons">
-      <button class="btn netflix">
-        🍿 Netflix & Chill
-      </button>
-      <button class="btn outdoor">
-        🎳 Activité extérieure
-      </button>
-    </div>
+<div class="card">
+  <div>
+    <h1>Alors dis-moi</h1>
+    <p>Que préfères-tu faire ma star ?</p>
+    <img src="hm.jpg" alt="Photo" class="photo">
   </div>
 
+  <div class="buttons">
+    <button class="btn netflix" onclick="choisir('Netflix & Chill 🍿')">🍿 Netflix & Chill</button>
+    <button class="btn outdoor" onclick="choisir('Activité extérieure 🎳')">🎳 Activité extérieure</button>
+  </div>
+
+  <div class="result" id="result"></div>
+</div>
+
+<script>
+function choisir(choix) {
+  const result = document.getElementById("result");
+  result.textContent = "Tu as choisi : " + choix + " ! Snap ton écran 👀";
+  result.classList.add("show");
+
+  // Confettis
+  for (let i=0; i<30; i++) {
+    const confetti = document.createElement("div");
+    confetti.classList.add("confetti");
+    confetti.style.left = Math.random()*100 + "%";
+    confetti.style.background = `hsl(${Math.random()*360}, 70%, 50%)`;
+    document.body.appendChild(confetti);
+    setTimeout(()=> confetti.remove(), 1000);
+  }
+  
+  // Désactiver boutons après choix
+  document.querySelectorAll(".btn").forEach(btn => btn.disabled = true);
+}
+</script>
 </body>
 </html>
