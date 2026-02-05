@@ -29,7 +29,7 @@
       background: var(--white);
       border-radius: var(--radius);
       padding: 32px 28px;
-      height: 420px;
+      height: 480px; /* un peu plus grand pour l'image */
       width: 90%;
       max-width: 420px;
       box-shadow: 0 12px 30px rgba(0,0,0,.15);
@@ -46,9 +46,20 @@
     }
 
     p {
-      margin: 12px 0 0;
+      margin: 12px 0 12px;
       color: #555;
       font-size: 1rem;
+    }
+
+    /* Image */
+    .photo {
+      max-width: 80%;
+      height: auto;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     /* Boutons principaux */
@@ -99,6 +110,7 @@
     <div>
       <h1>Alors dis-moi 💖</h1>
       <p>Tu préfères quoi pour notre moment ?</p>
+      <img src="hm.jpg" alt="Photo" class="photo">
     </div>
 
     <div class="buttons">
