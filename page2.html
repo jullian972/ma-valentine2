@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Tu as dit Oui 💖</title>
+  <title>Choisis 💕</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <style>
@@ -10,57 +10,90 @@
       --rose: #FF5AAC;
       --white: #ffffff;
       --green: #1e9e47;
-      --radius: 14px;
+      --red: #e53935;
+      --radius: 18px;
     }
 
     body {
       margin: 0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      text-align: center;
+      min-height: 100vh;
       background: var(--rose);
-      color: var(--white);
-      padding: 24px 16px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    }
+
+    /* Rectangle blanc */
+    .card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 32px 28px;
+      height: 420px; /* même logique que l'index */
+      width: 90%;
+      max-width: 420px;
+      box-shadow: 0 12px 30px rgba(0,0,0,.15);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
     h1 {
-      margin: 16px 0 8px;
-      font-size: 2rem;
+      margin: 0;
+      color: var(--rose);
+      font-size: 1.8rem;
     }
 
     p {
+      margin: 12px 0 0;
+      color: #555;
+      font-size: 1rem;
+    }
+
+    /* Boutons */
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
       margin-bottom: 20px;
     }
 
-    .gif {
-      display: block;
-      margin: 14px auto 20px;
-      max-width: 90%;
-      border-radius: var(--radius);
-      box-shadow: 0 10px 20px rgba(0,0,0,.12);
+    .btn {
+      flex: 1;
+      padding: 14px 0;
+      border-radius: 12px;
+      border: none;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
     }
 
-    .btn {
-      display: inline-block;
+    .btn.netflix {
       background: var(--green);
-      color: var(--white);
-      padding: 12px 22px;
-      border-radius: 10px;
-      text-decoration: none;
-      font-weight: 600;
+      color: white;
+    }
+
+    .btn.outdoor {
+      background: var(--red);
+      color: white;
     }
   </style>
 </head>
 
 <body>
 
-  <h1>Merci d'avoir dit Oui ! 💖</h1>
-  <p>Tu viens de rendre ma journée parfaite ✨</p>
+  <div class="card">
+    <div>
+      <h1>Alors dis-moi 💖</h1>
+      <p>Tu préfères quoi pour notre moment ?</p>
+    </div>
 
-  <img class="gif"
-       src="https://media.giphy.com/media/WRQBXSCnEFUVq/giphy.gif"
-       alt="Lilo & Stitch se font un câlin">
-
-  <a class="btn" href="index.html">Revenir</a>
+    <div class="buttons">
+      <button class="btn netflix">Netflix & Chill 🍿</button>
+      <button class="btn outdoor">Activité extérieure 🌿</button>
+    </div>
+  </div>
 
 </body>
 </html>
