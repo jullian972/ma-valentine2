@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Choisis 💕</title>
+  <title>Question importante 💖</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <style>
@@ -34,47 +34,22 @@
       max-width: 420px;
       box-shadow: 0 12px 30px rgba(0,0,0,.15);
       text-align: center;
-
+      position: relative; /* IMPORTANT */
       display: flex;
       flex-direction: column;
-
-      opacity: 0;
-      transform: scale(0.95);
-      animation: appear 0.4s ease-out forwards;
-    }
-
-    @keyframes appear {
-      to {
-        opacity: 1;
-        transform: scale(1);
-      }
+      justify-content: center;
     }
 
     h1 {
-      margin: 0;
+      margin: 0 0 20px;
       color: var(--rose);
       font-size: 1.8rem;
-    }
-
-    p {
-      margin: 12px 0;
-      color: #555;
-      font-size: 1rem;
-    }
-
-    .photo {
-      max-width: 90%;
-      max-height: 220px;
-      object-fit: cover;
-      border-radius: 12px;
-      margin: 12px auto;
-      display: block;
     }
 
     .buttons {
       display: flex;
       gap: 24px;
-      margin-top: 10px;
+      margin-top: 20px;
     }
 
     .btn {
@@ -85,42 +60,32 @@
       font-size: 1rem;
       font-weight: 600;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
-    .btn.netflix {
+    .btn.yes {
       background: var(--green);
       color: var(--white);
     }
 
-    .btn.outdoor {
+    .btn.no {
       background: var(--red);
       color: var(--white);
     }
 
     .btn:hover {
       transform: scale(1.05);
-      box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+      box-shadow: 0 6px 15px rgba(0,0,0,.25);
     }
 
-    /* TEXTE TOUT EN BAS */
-    .texte-non {
-      margin-top: auto;      /* pousse le texte en bas */
-      padding-top: 20px;
-      font-size: 12px;
-      opacity: 0.6;
-      text-align: center;
-    }
-
-    @media (max-width: 400px) {
-      .buttons {
-        flex-direction: column;
-        gap: 16px;
-      }
+    /* TEXTE DU BAS */
+    .bottom-text {
+      position: absolute;
+      bottom: 14px; /* PLUS BAS ICI */
+      left: 0;
+      right: 0;
+      font-size: 0.85rem;
+      color: #999;
     }
   </style>
 </head>
@@ -128,20 +93,19 @@
 <body>
 
   <div class="card">
-
-    <div>
-      <h1>Alors dis-moi</h1>
-      <p>Que préfères-tu faire ma star ?</p>
-      <img src="hm.jpg" alt="Photo" class="photo">
-    </div>
+    <h1>Tu veux être ma Valentine ? 💘</h1>
 
     <div class="buttons">
-      <button class="btn netflix">🍿 Netflix & Chill</button>
-      <button class="btn outdoor">🎳 Activité extérieure</button>
+      <a href="page2.html">
+        <button class="btn yes">Oui 💖</button>
+      </a>
+
+      <button class="btn no">Non 😢</button>
     </div>
 
-    <p class="texte-non">essaye quand même le non</p>
-
+    <div class="bottom-text">
+      essaye quand même le non
+    </div>
   </div>
 
 </body>
