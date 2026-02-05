@@ -11,7 +11,6 @@
       --white: #ffffff;
       --green: #1e9e47;
       --red: #e53935;
-      --black: #000000;
       --radius: 18px;
     }
 
@@ -74,21 +73,22 @@
       gap: 8px;
     }
 
-    /* Netflix style */
+    /* Netflix bouton : vert/blanc */
     .btn.netflix {
-      background: var(--black);
-      color: var(--red);
+      background: var(--green);
+      color: var(--white);
     }
 
-    /* Activité extérieure */
+    /* Activité extérieure : rouge/blanc */
     .btn.outdoor {
       background: var(--red);
-      color: white;
+      color: var(--white);
     }
 
-    /* Ajuster la taille de l'emoji pour correspondre au texte */
-    .btn span {
-      font-size: 1rem;
+    /* Logo Netflix à la place de l'emoji */
+    .btn img {
+      height: 1rem; /* même taille que le texte */
+      width: auto;
     }
   </style>
 </head>
@@ -103,10 +103,11 @@
 
     <div class="buttons">
       <button class="btn netflix">
-        <span>🍿</span> Netflix & Chill
+        <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" alt="Netflix logo">
+        Netflix & Chill
       </button>
       <button class="btn outdoor">
-        <span>🌿</span> Activité extérieure
+        🌿 Activité extérieure
       </button>
     </div>
   </div>
