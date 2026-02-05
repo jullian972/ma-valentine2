@@ -1,198 +1,148 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<title>Veux-tu être ma Valentine ? 💖</title>
+  <meta charset="UTF-8">
+  <title>Choisis 💕</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<style>
-body { 
-  margin: 0; 
-  font-family: Arial, sans-serif; 
-  text-align: center; 
-  background: #FF5AAC;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-}
+  <style>
+    :root {
+      --rose: #FF5AAC;
+      --white: #ffffff;
+      --green: #1e9e47;
+      --red: #e53935;
+      --radius: 18px;
+    }
 
-.container {
-  background: white;
-  border-radius: 20px;
-  width: 780px;
-  height: 520px;
-  padding: 30px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-  position: relative;
-}
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--rose);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      padding: 16px;
+    }
 
-h1 {
-  color: #FF5AAC;
-  margin: 10px 0 20px;
-}
+    .card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 32px 28px;
+      height: 480px;
+      width: 90%;
+      max-width: 420px;
+      box-shadow: 0 12px 30px rgba(0,0,0,.15);
+      text-align: center;
 
-img { 
-  display: block;
-  margin: 20px auto; 
-  max-width: 80%; 
-  border-radius: 15px; 
-}
+      display: flex;
+      flex-direction: column;
 
-.zone {
-  position: relative;
-  width: 100%;
-  height: 120px;
-  margin-top: 20px;
-}
+      opacity: 0;
+      transform: scale(0.95);
+      animation: appear 0.4s ease-out forwards;
+    }
 
-button {
-  padding: 15px 40px;
-  font-size: 18px;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-  position: absolute;
-  user-select: none;
-}
+    @keyframes appear {
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
 
-#oui {
-  background: green;
-  color: white;
-  transition: transform 0.2s ease;
-}
+    h1 {
+      margin: 0;
+      color: var(--rose);
+      font-size: 1.8rem;
+    }
 
-#non {
-  background: red;
-  color: white;
-}
+    p {
+      margin: 12px 0;
+      color: #555;
+      font-size: 1rem;
+    }
 
-#avertissement {
-  position: absolute;
-  color: red;
-  font-size: 16px;
-  font-weight: bold;
-  white-space: nowrap;
-  pointer-events: none;
-}
+    .photo {
+      max-width: 90%;
+      max-height: 220px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin: 12px auto;
+      display: block;
+    }
 
-@keyframes flecheLoop {
-  0% { transform: rotate(0deg); }
-  25% { transform: rotate(-20deg); }
-  50% { transform: rotate(20deg); }
-  75% { transform: rotate(-10deg); }
-  100% { transform: rotate(0deg); }
-}
+    .buttons {
+      display: flex;
+      gap: 24px;
+      margin-top: 10px;
+    }
 
-#avertissement span {
-  display: inline-block;
-  animation: flecheLoop 1s infinite;
-  margin-right: 6px;
-}
+    .btn {
+      flex: 1;
+      padding: 14px 0;
+      border-radius: 12px;
+      border: none;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
 
-/* Texte du bas */
-#hint {
-  margin-top: 25px;
-  font-size: 16px;
-  font-weight: bold;
-  color: #FF5AAC;
-}
-</style>
+    .btn.netflix {
+      background: var(--green);
+      color: var(--white);
+    }
+
+    .btn.outdoor {
+      background: var(--red);
+      color: var(--white);
+    }
+
+    .btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+    }
+
+    /* TEXTE TOUT EN BAS */
+    .texte-non {
+      margin-top: auto;      /* pousse le texte en bas */
+      padding-top: 20px;
+      font-size: 12px;
+      opacity: 0.6;
+      text-align: center;
+    }
+
+    @media (max-width: 400px) {
+      .buttons {
+        flex-direction: column;
+        gap: 16px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="container">
-  <h1>Veux-tu être ma Valentine ? 💖</h1>
+  <div class="card">
 
-  <img src="homme.jpg" alt="Photo Valentine">
+    <div>
+      <h1>Alors dis-moi</h1>
+      <p>Que préfères-tu faire ma star ?</p>
+      <img src="hm.jpg" alt="Photo" class="photo">
+    </div>
 
-  <div class="zone">
-    <button id="oui">Oui</button>
-    <button id="non">Non</button>
-    <div id="avertissement"><span>↩</span>Pitié n'appuie pas là</div>
+    <div class="buttons">
+      <button class="btn netflix">🍿 Netflix & Chill</button>
+      <button class="btn outdoor">🎳 Activité extérieure</button>
+    </div>
+
+    <p class="texte-non">essaye quand même le non</p>
+
   </div>
-
-  <!-- Texte en bas du rectangle -->
-  <div id="hint">Essaye quand même le non 👀</div>
-</div>
-
-<script>
-const oui = document.getElementById("oui");
-const non = document.getElementById("non");
-const zone = document.querySelector(".zone");
-const avertissement = document.getElementById("avertissement");
-
-let scaleOui = 1;
-const maxScale = 2.0;
-const scaleStep = 0.2;
-const padding = 10;
-
-function positionInitiale() {
-  const zoneWidth = zone.offsetWidth;
-  const zoneHeight = zone.offsetHeight;
-
-  const btnWidth = 100;
-  const btnHeight = 50;
-  const space = 30;
-
-  const centerX = zoneWidth / 2;
-  const centerY = zoneHeight / 2 + 10;
-
-  oui.style.left = (centerX - btnWidth - space) + "px";
-  oui.style.top = (centerY - btnHeight / 2) + "px";
-
-  non.style.left = (centerX + space) + "px";
-  non.style.top = (centerY - btnHeight / 2) + "px";
-
-  avertissement.style.left = (non.offsetLeft + non.offsetWidth + 10) + "px";
-  avertissement.style.top =
-    non.offsetTop +
-    non.offsetHeight / 2 -
-    avertissement.offsetHeight / 2 +
-    "px";
-}
-
-positionInitiale();
-window.addEventListener("resize", positionInitiale);
-
-function bougerNon() {
-  const maxX = zone.offsetWidth - non.offsetWidth - padding;
-  const maxY = zone.offsetHeight - non.offsetHeight - padding;
-
-  non.style.left = Math.random() * maxX + "px";
-  non.style.top = Math.random() * maxY + "px";
-
-  if (scaleOui < maxScale) {
-    scaleOui += scaleStep;
-    oui.style.transform = `scale(${scaleOui})`;
-  }
-
-  if (avertissement.style.display !== "none") {
-    avertissement.style.left = (non.offsetLeft + non.offsetWidth + 10) + "px";
-    avertissement.style.top =
-      non.offsetTop +
-      non.offsetHeight / 2 -
-      avertissement.offsetHeight / 2 +
-      "px";
-  }
-}
-
-function cacherAvertissement() {
-  avertissement.style.display = "none";
-  non.removeEventListener("mouseenter", cacherAvertissement);
-  non.removeEventListener("touchstart", cacherAvertissement);
-}
-
-non.addEventListener("mouseenter", bougerNon);
-non.addEventListener("touchstart", bougerNon, { passive: false });
-
-non.addEventListener("mouseenter", cacherAvertissement);
-non.addEventListener("touchstart", cacherAvertissement, { passive: false });
-
-oui.addEventListener("click", () => {
-  window.location.href = "page2.html";
-});
-</script>
 
 </body>
 </html>
