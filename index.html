@@ -8,12 +8,12 @@
     body { 
       margin: 0; 
       font-family: Arial, sans-serif; 
-      text-align: center; 
       background: #FF5AAC;
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
+      text-align: center;
     }
 
     .container {
@@ -23,26 +23,23 @@
       height: 520px;
       padding: 30px;
       box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-      position: relative;
     }
 
     h1 {
       color: #FF5AAC;
-      margin: 10px 0 20px;
+      margin-bottom: 20px;
     }
 
-    img { 
-      display: block;
-      margin: 20px auto; 
-      max-width: 80%; 
-      border-radius: 15px; 
+    img {
+      max-width: 80%;
+      border-radius: 15px;
+      margin-bottom: 20px;
     }
 
     .zone {
       position: relative;
       width: 100%;
-      height: 120px;
-      margin-top: 20px;
+      height: 140px;
     }
 
     button {
@@ -53,12 +50,12 @@
       cursor: pointer;
       position: absolute;
       user-select: none;
+      transition: transform 0.2s ease, font-size 0.2s ease, box-shadow 0.2s ease;
     }
 
     #oui {
       background: green;
       color: white;
-      transition: transform 0.2s ease; /* animation douce */
     }
 
     #non {
@@ -69,7 +66,6 @@
     #avertissement {
       position: absolute;
       color: red;
-      font-size: 16px;
       font-weight: bold;
       white-space: nowrap;
       pointer-events: none;
@@ -112,8 +108,8 @@
     const avertissement = document.getElementById("avertissement");
 
     let scaleOui = 1;
-    const maxScale = 2.0;   // taille max (+15%)
-    const scaleStep = 0.2;  // augmentation progressive
+    const maxScale = 2.0;   // TON RÉGLAGE
+    const scaleStep = 0.2;  // TON RÉGLAGE
     const padding = 10;
 
     function positionInitiale() {
@@ -122,10 +118,10 @@
 
       const btnWidth = 100;
       const btnHeight = 50;
-      const space = 30;
+      const space = 40;
 
       const centerX = zoneWidth / 2;
-      const centerY = zoneHeight / 2 + 10;
+      const centerY = zoneHeight / 2;
 
       oui.style.left = (centerX - btnWidth - space) + "px";
       oui.style.top = (centerY - btnHeight / 2) + "px";
@@ -151,10 +147,13 @@
       non.style.left = Math.random() * maxX + "px";
       non.style.top = Math.random() * maxY + "px";
 
-      // Le OUI grossit petit à petit
+      // 🔥 OUI GROSSIT VRAIMENT
       if (scaleOui < maxScale) {
         scaleOui += scaleStep;
-        oui.style.transform = `scale(${scaleOui})`;
+
+        oui.style.transform = `scale(${scaleOui}) translateY(-4px)`;
+        oui.style.fontSize = (18 + scaleOui * 6) + "px";
+        oui.style.boxShadow = `0 0 ${scaleOui * 30}px rgba(0,200,0,0.7)`;
       }
 
       if (avertissement.style.display !== "none") {
