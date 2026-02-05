@@ -62,9 +62,7 @@
   .zone {
     position:relative; 
     width:100%; 
-    display:flex; 
-    justify-content:center;
-    gap:20px;
+    height:60px; /* hauteur suffisante pour le bouton Non qui bouge */
   }
 
   button {
@@ -75,6 +73,7 @@
     cursor:pointer;
     user-select:none;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
+    position:absolute; /* nécessaire pour le mouvement du Non */
   }
 
   #oui { background: green; color: white; }
@@ -85,10 +84,11 @@
     box-shadow: 0 6px 15px rgba(0,0,0,0.25);
   }
 
-  /* Responsive léger : seulement taille image et rectangle */
+  /* Responsive léger : image et rectangle */
   @media (max-width: 400px) {
     .card { height: auto; padding: 24px 16px; }
     .photo { max-height: 180px; }
+    .zone { height: 80px; }
   }
 </style>
 </head>
@@ -109,24 +109,56 @@
 <script>
 const non = document.getElementById("non");
 const oui = document.getElementById("oui");
-const padding = 5;
 
 function bougerNon(){
-  const zoneWidth = non.parentElement.offsetWidth;
-  const zoneHeight = non.parentElement.offsetHeight;
+  const zone = non.parentElement; 
+  const zoneWidth = zone.offsetWidth;
+  const zoneHeight = zone.offsetHeight;
   const nonWidth = non.offsetWidth;
   const nonHeight = non.offsetHeight;
-  const minX = padding;
-  const maxX = zoneWidth - nonWidth - padding;
-  const minY = padding;
-  const maxY = zoneHeight - nonHeight - padding;
-  non.style.position = "absolute";
-  non.style.left = (Math.random()*(maxX-minX)+minX) + "px";
-  non.style.top = (Math.random()*(maxY-minY)+minY) + "px";
+  const ouiWidth = oui.offsetWidth;
+  const ouiHeight = oui.offsetHeight;
+
+  const padding = 5;
+  let newLeft, newTop, overlap;
+
+  do {
+    newLeft = Math.random() * (zoneWidth - nonWidth - 2*padding) + padding;
+    newTop = Math.random() * (zoneHeight - nonHeight - 2*padding) + padding;
+
+    const ouiLeft = oui.offsetLeft;
+    const ouiTop = oui.offsetTop;
+
+    overlap = !(newLeft + nonWidth < ouiLeft || newLeft > ouiLeft + ouiWidth || 
+                newTop + nonHeight < ouiTop || newTop > ouiTop + ouiHeight);
+  } while(overlap);
+
+  non.style.left = newLeft + "px";
+  non.style.top = newTop + "px";
 }
 
 non.addEventListener("mouseenter", bougerNon);
 non.addEventListener("touchstart", bougerNon,{passive:false});
+
+// Position initiale du Oui et Non
+function positionInitiale() {
+  const zoneWidth = non.parentElement.offsetWidth;
+  const zoneHeight = non.parentElement.offsetHeight;
+  const ouiWidth = oui.offsetWidth;
+  const ouiHeight = oui.offsetHeight;
+  const padding = 5;
+
+  // Oui centré à gauche
+  oui.style.left = (zoneWidth/2 - ouiWidth -10) + "px";
+  oui.style.top = (zoneHeight/2 - ouiHeight/2) + "px";
+
+  // Non centré à droite au départ
+  non.style.left = (zoneWidth/2 + 10) + "px";
+  non.style.top = (zoneHeight/2 - non.offsetHeight/2) + "px";
+}
+
+positionInitiale();
+window.addEventListener("resize", positionInitiale);
 </script>
 
 </body>
