@@ -64,12 +64,26 @@
       position: absolute;
       color: white;
       font-size: 16px;
-      left: 70%;
-      top: 50%;
-      transform: translateY(-50%);
-      white-space: nowrap;
       font-weight: bold;
+      white-space: nowrap;
+      pointer-events: none; /* ne gêne pas le bouton Non */
     }
+
+    /* Animation de la flèche en boucle */
+    @keyframes flècheLoop {
+      0% { transform: rotate(0deg); }
+      25% { transform: rotate(-20deg); }
+      50% { transform: rotate(20deg); }
+      75% { transform: rotate(-10deg); }
+      100% { transform: rotate(0deg); }
+    }
+
+    #avertissement span {
+      display: inline-block;
+      animation: flècheLoop 1s ease-in-out infinite;
+      margin-right: 5px; /* espace entre la flèche et le texte */
+    }
+
   </style>
 </head>
 
@@ -84,7 +98,7 @@
   <div class="zone">
     <button id="oui">Oui</button>
     <button id="non">Non</button>
-    <span id="avertissement">⬅ Pitié, n'appuie pas là !</span>
+    <span id="avertissement"><span>⬅</span> Pitié, n'appuie pas là !</span>
   </div>
 
   <script>
@@ -111,9 +125,10 @@
       non.style.left = (centerX + 10) + "px";
       non.style.top = (centerY - btnHeight / 2) + "px";
 
-      // Ajuste le texte de l'avertissement près du bouton Non
-      avertissement.style.left = (centerX + 110) + "px";
-      avertissement.style.top = (centerY - btnHeight / 2 + 5) + "px";
+      // Alignement parfait du texte avertissement à droite du bouton Non
+      const nonRect = non.getBoundingClientRect();
+      avertissement.style.left = (non.offsetLeft + non.offsetWidth + 10) + "px";
+      avertissement.style.top = non.offsetTop + (non.offsetHeight / 2) - (avertissement.offsetHeight / 2) + "px";
     }
 
     positionInitiale();
@@ -132,6 +147,12 @@
 
       non.style.left = Math.random() * maxX + "px";
       non.style.top = Math.random() * maxY + "px";
+
+      // mettre à jour la position du texte si il est encore visible
+      if (avertissement.style.display !== "none") {
+        avertissement.style.left = (non.offsetLeft + non.offsetWidth + 10) + "px";
+        avertissement.style.top = non.offsetTop + (non.offsetHeight / 2) - (avertissement.offsetHeight / 2) + "px";
+      }
     }
 
     // Faire disparaître le texte au premier survol/clic
