@@ -53,18 +53,11 @@
       cursor: pointer;
       position: absolute;
       user-select: none;
+      transition: transform 0.2s ease;
     }
 
-    #oui {
-      background: green;
-      color: white;
-      transition: transform 0.2s ease; /* animation douce */
-    }
-
-    #non {
-      background: red;
-      color: white;
-    }
+    #oui { background: green; color: white; }
+    #non { background: red; color: white; }
 
     #avertissement {
       position: absolute;
@@ -112,7 +105,7 @@
     const avertissement = document.getElementById("avertissement");
 
     let scaleOui = 1;
-    const maxScale = 2.0;   // taille max (+15%)
+    const maxScale = 2.0;   // taille max
     const scaleStep = 0.2;  // augmentation progressive
     const padding = 10;
 
@@ -145,18 +138,50 @@
     window.addEventListener("resize", positionInitiale);
 
     function bougerNon() {
-      const maxX = zone.offsetWidth - non.offsetWidth - padding;
-      const maxY = zone.offsetHeight - non.offsetHeight - padding;
+      const zoneWidth = zone.offsetWidth;
+      const zoneHeight = zone.offsetHeight;
+      const nonWidth = non.offsetWidth;
+      const nonHeight = non.offsetHeight;
+      const ouiRect = oui.getBoundingClientRect();
 
-      non.style.left = Math.random() * maxX + "px";
-      non.style.top = Math.random() * maxY + "px";
+      let newLeft, newTop, overlap;
 
-      // Le OUI grossit petit à petit
+      do {
+        newLeft = Math.random() * (zoneWidth - nonWidth - 2*padding) + padding;
+        newTop = Math.random() * (zoneHeight - nonHeight - 2*padding) + padding;
+
+        const nonRect = {
+          left: newLeft,
+          top: newTop,
+          right: newLeft + nonWidth,
+          bottom: newTop + nonHeight
+        };
+
+        const ouiRectRelative = {
+          left: oui.offsetLeft,
+          top: oui.offsetTop,
+          right: oui.offsetLeft + oui.offsetWidth,
+          bottom: oui.offsetTop + oui.offsetHeight
+        };
+
+        // overlap = vrai si Non chevauche Oui
+        overlap = !(nonRect.right < ouiRectRelative.left ||
+                    nonRect.left > ouiRectRelative.right ||
+                    nonRect.bottom < ouiRectRelative.top ||
+                    nonRect.top > ouiRectRelative.bottom);
+
+      } while(overlap);
+
+      non.style.left = newLeft + "px";
+      non.style.top = newTop + "px";
+
+      // Oui grossit petit à petit
       if (scaleOui < maxScale) {
         scaleOui += scaleStep;
         oui.style.transform = `scale(${scaleOui})`;
       }
 
+      // repositionne le texte avertissement
       if (avertissement.style.display !== "none") {
         avertissement.style.left = (non.offsetLeft + non.offsetWidth + 10) + "px";
         avertissement.style.top =
