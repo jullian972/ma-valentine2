@@ -17,14 +17,14 @@
     }
 
     .container {
-  background: white;
-  border-radius: 20px;
-  width: 780px;
-  height: 520px;          /* hauteur fixe que tu peux ajuster */
-  padding: 30px 30px 30px 30px; /* padding horizontal seulement */
-  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-  position: relative;
-}
+      background: white;
+      border-radius: 20px;
+      width: 780px;
+      height: 520px;          /* hauteur fixe */
+      padding: 30px;           /* padding horizontal uniquement */
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      position: relative;
+    }
 
     .title-container {
       display: flex;
@@ -131,8 +131,9 @@
       const btnWidth = 100;
       const btnHeight = 50;
 
+      // On descend les boutons de 30px par rapport au centre
       const centerX = zoneWidth / 2;
-      const centerY = zoneHeight / 2;
+      const centerY = zoneHeight / 2 + 30; // +30 pour descendre
 
       oui.style.left = (centerX - btnWidth - 10) + "px";
       oui.style.top = (centerY - btnHeight / 2) + "px";
