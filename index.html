@@ -47,7 +47,6 @@
   }
 
   h1 { margin:0; color:var(--rose); font-size:1.8rem; }
-  .small-text { font-size:0.8rem; color:#555; margin-bottom:8px; }
 
   /* Image */
   .photo {
@@ -86,11 +85,9 @@
     box-shadow: 0 6px 15px rgba(0,0,0,0.25);
   }
 
-  /* Responsive pour petit écran */
+  /* Responsive léger : seulement taille image et rectangle */
   @media (max-width: 400px) {
     .card { height: auto; padding: 24px 16px; }
-    .zone { flex-direction: column; gap: 12px; }
-    button { width: 100%; font-size: 1rem; }
     .photo { max-height: 180px; }
   }
 </style>
