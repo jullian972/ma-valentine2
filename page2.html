@@ -22,6 +22,7 @@
       align-items: center;
       justify-content: center;
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      padding: 16px;
     }
 
     /* Rectangle blanc avec animation */
@@ -38,7 +39,6 @@
       flex-direction: column;
       justify-content: space-between;
 
-      /* Animation d'apparition */
       opacity: 0;
       transform: scale(0.95);
       animation: appear 0.4s ease-out forwards;
@@ -66,7 +66,7 @@
     /* Image */
     .photo {
       max-width: 90%;
-      max-height: 220px; 
+      max-height: 220px;
       object-fit: cover;
       border-radius: 12px;
       margin-bottom: 12px;
@@ -81,7 +81,7 @@
       justify-content: space-between;
       gap: 24px;
       margin-bottom: 10px;
-      margin-top: -10px; /* remonte les boutons un peu */
+      margin-top: -10px;
     }
 
     .btn {
@@ -109,11 +109,31 @@
       color: var(--white);
     }
 
-    /* Effet hover pour boutons principaux */
     .btn.netflix:hover,
     .btn.outdoor:hover {
       transform: scale(1.05);
       box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+    }
+
+    /* Responsive pour petit écran */
+    @media (max-width: 400px) {
+      .card {
+        height: auto; /* hauteur automatique pour s’adapter au contenu */
+        padding: 24px 16px;
+      }
+
+      .buttons {
+        flex-direction: column; /* boutons empilés */
+        gap: 16px;
+      }
+
+      .btn {
+        font-size: 0.95rem; /* légèrement plus petit */
+      }
+
+      .photo {
+        max-height: 180px; /* réduit un peu pour mobile */
+      }
     }
   </style>
 </head>
