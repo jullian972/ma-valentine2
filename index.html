@@ -131,14 +131,15 @@
       const btnWidth = 100;
       const btnHeight = 50;
 
-      // On descend les boutons de 100px par rapport au centre
+      // On descend les boutons de 30px par rapport au centre
       const centerX = zoneWidth / 2;
-      const centerY = zoneHeight / 2 + 100; // +100 pour descendre
+      const centerY = zoneHeight / 2 + 30; // +30 pour descendre
 
-      oui.style.left = (centerX - btnWidth - 10) + "px";
+      const space = 30; // espace entre les boutons
+      oui.style.left = (centerX - btnWidth - space) + "px";
       oui.style.top = (centerY - btnHeight / 2) + "px";
 
-      non.style.left = (centerX + 10) + "px";
+      non.style.left = (centerX + space) + "px";
       non.style.top = (centerY - btnHeight / 2) + "px";
 
       // Texte avertissement aligné à droite du Non
