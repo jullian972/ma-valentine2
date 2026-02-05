@@ -11,6 +11,7 @@
       --white: #ffffff;
       --green: #1e9e47;
       --red: #e53935;
+      --black: #000000;
       --radius: 18px;
     }
 
@@ -29,7 +30,7 @@
       background: var(--white);
       border-radius: var(--radius);
       padding: 32px 28px;
-      height: 420px; /* même logique que l'index */
+      height: 420px;
       width: 90%;
       max-width: 420px;
       box-shadow: 0 12px 30px rgba(0,0,0,.15);
@@ -67,16 +68,27 @@
       font-size: 1rem;
       font-weight: 600;
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
     }
 
+    /* Netflix style */
     .btn.netflix {
-      background: var(--green);
-      color: white;
+      background: var(--black);
+      color: var(--red);
     }
 
+    /* Activité extérieure */
     .btn.outdoor {
       background: var(--red);
       color: white;
+    }
+
+    /* Ajuster la taille de l'emoji pour correspondre au texte */
+    .btn span {
+      font-size: 1rem;
     }
   </style>
 </head>
@@ -90,8 +102,12 @@
     </div>
 
     <div class="buttons">
-      <button class="btn netflix">Netflix & Chill 🍿</button>
-      <button class="btn outdoor">Activité extérieure 🌿</button>
+      <button class="btn netflix">
+        <span>🍿</span> Netflix & Chill
+      </button>
+      <button class="btn outdoor">
+        <span>🌿</span> Activité extérieure
+      </button>
     </div>
   </div>
 
