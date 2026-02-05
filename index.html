@@ -1,164 +1,188 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<title>Veux-tu être ma Valentine ? 💖</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-  :root {
-    --rose: #FF5AAC;
-    --white: #ffffff;
-    --green: #1e9e47;
-    --radius: 18px;
-  }
+  <meta charset="UTF-8">
+  <title>Veux-tu être ma Valentine ? 💖</title>
 
-  body {
-    margin:0; 
-    min-height: 100vh;
-    background: var(--rose);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: Arial, sans-serif;
-    padding: 16px;
-  }
+  <style>
+    body { 
+      margin: 0; 
+      font-family: Arial, sans-serif; 
+      text-align: center; 
+      background: #FF5AAC;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
 
-  /* Rectangle blanc avec animation */
-  .card {
-    background: var(--white);
-    border-radius: var(--radius);
-    padding: 32px 28px;
-    height: 550px;
-    width: 90%;
-    max-width: 420px;
-    box-shadow: 0 12px 30px rgba(0,0,0,.15);
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    .container {
+      background: white;
+      border-radius: 20px;
+      width: 780px;
+      height: 520px;
+      padding: 30px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      position: relative;
+    }
 
-    opacity: 0;
-    transform: scale(0.95);
-    animation: appear 0.4s ease-out forwards;
-  }
+    h1 {
+      color: #FF5AAC;
+      margin: 10px 0 20px;
+    }
 
-  @keyframes appear {
-    to { opacity: 1; transform: scale(1); }
-  }
+    img { 
+      display: block;
+      margin: 20px auto; 
+      max-width: 80%; 
+      border-radius: 15px; 
+    }
 
-  h1 { margin:0; color:var(--rose); font-size:1.8rem; }
+    .zone {
+      position: relative;
+      width: 100%;
+      height: 120px;
+      margin-top: 20px;
+    }
 
-  /* Image */
-  .photo {
-    display:block;
-    max-width:80%;
-    max-height:220px;
-    object-fit:cover;
-    margin:20px auto;
-    border-radius:15px;
-  }
+    button {
+      padding: 15px 40px;
+      font-size: 18px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      position: absolute;
+      user-select: none;
+    }
 
-  /* Zone boutons */
-  .zone {
-    position:relative; 
-    width:100%; 
-    height:60px; /* hauteur pour le bouton Non qui bouge */
-  }
+    #oui {
+      background: green;
+      color: white;
+      transition: transform 0.2s ease; /* animation douce */
+    }
 
-  button {
-    padding:15px 40px;
-    font-size:18px;
-    border-radius:10px;
-    border:none;
-    cursor:pointer;
-    user-select:none;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    position:absolute;
-  }
+    #non {
+      background: red;
+      color: white;
+    }
 
-  #oui { background: green; color: white; }
-  #non { background: red; color: white; }
+    #avertissement {
+      position: absolute;
+      color: red;
+      font-size: 16px;
+      font-weight: bold;
+      white-space: nowrap;
+      pointer-events: none;
+    }
 
-  #oui:hover, #non:hover {
-    transform: scale(1.05);
-    box-shadow: 0 6px 15px rgba(0,0,0,0.25);
-  }
+    @keyframes flecheLoop {
+      0% { transform: rotate(0deg); }
+      25% { transform: rotate(-20deg); }
+      50% { transform: rotate(20deg); }
+      75% { transform: rotate(-10deg); }
+      100% { transform: rotate(0deg); }
+    }
 
-  /* Responsive léger : seulement photo et rectangle */
-  @media (max-width: 400px) {
-    .card { height: auto; padding: 24px 16px; }
-    .photo { max-height: 180px; }
-  }
-</style>
+    #avertissement span {
+      display: inline-block;
+      animation: flecheLoop 1s infinite;
+      margin-right: 6px;
+    }
+  </style>
 </head>
 
 <body>
-<div class="card">
-  <div>
+
+  <div class="container">
     <h1>Veux-tu être ma Valentine ? 💖</h1>
-    <img src="homme.jpg" alt="Photo Valentine" class="photo">
+
+    <img src="homme.jpg" alt="Photo Valentine">
+
+    <div class="zone">
+      <button id="oui">Oui</button>
+      <button id="non">Non</button>
+      <div id="avertissement"><span>↩</span>Pitié n'appuie pas là</div>
+    </div>
   </div>
 
-  <div class="zone">
-    <button id="oui" onclick="location.href='page2.html'">Oui</button>
-    <button id="non">Non</button>
-  </div>
-</div>
+  <script>
+    const oui = document.getElementById("oui");
+    const non = document.getElementById("non");
+    const zone = document.querySelector(".zone");
+    const avertissement = document.getElementById("avertissement");
 
-<script>
-const non = document.getElementById("non");
-const oui = document.getElementById("oui");
+    let scaleOui = 1;
+    const maxScale = 2.0;   // taille max (+15%)
+    const scaleStep = 0.2;  // augmentation progressive
+    const padding = 10;
 
-function bougerNon(){
-  const zone = non.parentElement; 
-  const zoneWidth = zone.offsetWidth;
-  const zoneHeight = zone.offsetHeight;
-  const nonWidth = non.offsetWidth;
-  const nonHeight = non.offsetHeight;
-  const ouiWidth = oui.offsetWidth;
-  const ouiHeight = oui.offsetHeight;
+    function positionInitiale() {
+      const zoneWidth = zone.offsetWidth;
+      const zoneHeight = zone.offsetHeight;
 
-  const padding = 5;
-  let newLeft, newTop, overlap;
+      const btnWidth = 100;
+      const btnHeight = 50;
+      const space = 30;
 
-  do {
-    newLeft = Math.random() * (zoneWidth - nonWidth - 2*padding) + padding;
-    newTop = Math.random() * (zoneHeight - nonHeight - 2*padding) + padding;
+      const centerX = zoneWidth / 2;
+      const centerY = zoneHeight / 2 + 10;
 
-    const ouiLeft = oui.offsetLeft;
-    const ouiTop = oui.offsetTop;
+      oui.style.left = (centerX - btnWidth - space) + "px";
+      oui.style.top = (centerY - btnHeight / 2) + "px";
 
-    overlap = !(newLeft + nonWidth < ouiLeft || newLeft > ouiLeft + ouiWidth || 
-                newTop + nonHeight < ouiTop || newTop > ouiTop + ouiHeight);
-  } while(overlap);
+      non.style.left = (centerX + space) + "px";
+      non.style.top = (centerY - btnHeight / 2) + "px";
 
-  non.style.left = newLeft + "px";
-  non.style.top = newTop + "px";
-}
+      avertissement.style.left = (non.offsetLeft + non.offsetWidth + 10) + "px";
+      avertissement.style.top =
+        non.offsetTop +
+        non.offsetHeight / 2 -
+        avertissement.offsetHeight / 2 +
+        "px";
+    }
 
-// événements
-non.addEventListener("mouseenter", bougerNon);
-non.addEventListener("touchstart", bougerNon,{passive:false});
+    positionInitiale();
+    window.addEventListener("resize", positionInitiale);
 
-// Position initiale des boutons
-function positionInitiale() {
-  const zoneWidth = non.parentElement.offsetWidth;
-  const zoneHeight = non.parentElement.offsetHeight;
-  const ouiWidth = oui.offsetWidth;
-  const ouiHeight = oui.offsetHeight;
+    function bougerNon() {
+      const maxX = zone.offsetWidth - non.offsetWidth - padding;
+      const maxY = zone.offsetHeight - non.offsetHeight - padding;
 
-  // Oui à gauche
-  oui.style.left = (zoneWidth/2 - ouiWidth -10) + "px";
-  oui.style.top = (zoneHeight/2 - ouiHeight/2) + "px";
+      non.style.left = Math.random() * maxX + "px";
+      non.style.top = Math.random() * maxY + "px";
 
-  // Non à droite
-  non.style.left = (zoneWidth/2 + 10) + "px";
-  non.style.top = (zoneHeight/2 - nonHeight/2) + "px";
-}
+      // Le OUI grossit petit à petit
+      if (scaleOui < maxScale) {
+        scaleOui += scaleStep;
+        oui.style.transform = `scale(${scaleOui})`;
+      }
 
-positionInitiale();
-window.addEventListener("resize", positionInitiale);
-</script>
+      if (avertissement.style.display !== "none") {
+        avertissement.style.left = (non.offsetLeft + non.offsetWidth + 10) + "px";
+        avertissement.style.top =
+          non.offsetTop +
+          non.offsetHeight / 2 -
+          avertissement.offsetHeight / 2 +
+          "px";
+      }
+    }
+
+    function cacherAvertissement() {
+      avertissement.style.display = "none";
+      non.removeEventListener("mouseenter", cacherAvertissement);
+      non.removeEventListener("touchstart", cacherAvertissement);
+    }
+
+    non.addEventListener("mouseenter", bougerNon);
+    non.addEventListener("touchstart", bougerNon, { passive: false });
+
+    non.addEventListener("mouseenter", cacherAvertissement);
+    non.addEventListener("touchstart", cacherAvertissement, { passive: false });
+
+    oui.addEventListener("click", () => {
+      window.location.href = "page2.html";
+    });
+  </script>
 
 </body>
 </html>
