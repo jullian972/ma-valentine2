@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Confirmation 💖</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+:root {
+  --rose: #FF5AAC;
+  --white: #ffffff;
+  --radius: 18px;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--rose);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  padding: 16px;
+}
+
+.card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 32px 28px;
+  width: 90%;
+  max-width: 420px;
+  box-shadow: 0 12px 30px rgba(0,0,0,.15);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+}
+
+h1 {
+  margin: 0;
+  color: var(--rose);
+  font-size: 1.8rem;
+}
+
+.result {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--rose);
+  margin-top: 20px;
+  opacity: 0;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.result.show {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.confetti {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0.9;
+  animation: fall 1s linear forwards;
+}
+
+@keyframes fall {
+  0% { transform: translateY(0) rotate(0deg); opacity:1; }
+  100% { transform: translateY(200px) rotate(360deg); opacity:0; }
+}
+
+/* bouton revenir */
+.back-btn {
+  margin-top: 30px;
+  padding: 10px 20px;
+  border-radius: 12px;
+  border: none;
+  background: #aaa;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.back-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+}
+
+/* responsive */
+@media (max-width: 400px) {
+  .card { padding: 24px 16px; }
+  h1 { font-size: 1.5rem; }
+  .result { font-size: 1.4rem; }
+}
+</style>
+</head>
+
+<body>
+<div class="card">
+  <h1>Confirmation 💖</h1>
+  <div class="result" id="result"></div>
+  <button class="back-btn" onclick="history.back()">Revenir</button>
+</div>
+
+<script>
+// récupérer le choix depuis l'URL
+const params = new URLSearchParams(window.location.search);
+const choix = params.get("choix") || "ton choix";
+
+// afficher le texte
+const result = document.getElementById("result");
+result.textContent = "Tu as choisi : " + choix + " ! Snap ton écran 👀";
+result.classList.add("show");
+
+// confettis
+for (let i=0; i<30; i++) {
+  const confetti = document.createElement("div");
+  confetti.classList.add("confetti");
+  confetti.style.left = Math.random()*100 + "%";
+  confetti.style.background = `hsl(${Math.random()*360}, 70%, 50%)`;
+  document.body.appendChild(confetti);
+  setTimeout(()=> confetti.remove(), 1000);
+}
+</script>
+</body>
+</html>
