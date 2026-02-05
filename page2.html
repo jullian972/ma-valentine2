@@ -71,24 +71,36 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
-    /* Netflix bouton : vert/blanc */
     .btn.netflix {
       background: var(--green);
       color: var(--white);
     }
 
-    /* Activité extérieure : rouge/blanc */
     .btn.outdoor {
       background: var(--red);
       color: var(--white);
     }
 
-    /* Logo Netflix à la place de l'emoji */
+    .btn.retour {
+      background: #aaa;
+      color: white;
+      margin-top: 10px;
+    }
+
+    /* Logo Netflix "N" */
     .btn img {
-      height: 1rem; /* même taille que le texte */
+      height: 1rem;
       width: auto;
+    }
+
+    /* Effet au survol */
+    .btn.netflix:hover,
+    .btn.outdoor:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.25);
     }
   </style>
 </head>
@@ -103,13 +115,17 @@
 
     <div class="buttons">
       <button class="btn netflix">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" alt="Netflix logo">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/69/Netflix_logo_N.svg" alt="Netflix N">
         Netflix & Chill
       </button>
       <button class="btn outdoor">
-        🌿 Activité extérieure
+        🎳 Activité extérieure
       </button>
     </div>
+
+    <button class="btn retour" onclick="window.location.href='index.html'">
+      Revenir
+    </button>
   </div>
 
 </body>
