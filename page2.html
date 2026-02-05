@@ -51,12 +51,12 @@
       font-size: 1rem;
     }
 
-    /* Boutons */
+    /* Boutons principaux */
     .buttons {
       display: flex;
       justify-content: space-between;
       gap: 24px;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
     }
 
     .btn {
@@ -84,18 +84,19 @@
       color: var(--white);
     }
 
+    /* Bouton Revenir minuscule */
     .btn.retour {
       background: #aaa;
       color: white;
-      padding: 12px 0;
-      border-radius: 12px;
-      font-size: 0.9rem;
-      width: 40%;      /* largeur courte, moins que les boutons principaux */
-      align-self: center;  /* centré sous les deux boutons */
+      padding: 6px 12px;     /* petit padding */
+      font-size: 0.8rem;     /* texte petit */
+      width: auto;           /* largeur automatique selon le texte */
+      align-self: center;    /* centré sous les boutons principaux */
       margin-top: 10px;
+      border-radius: 10px;
     }
 
-    /* Effet au survol pour boutons principaux */
+    /* Effet hover pour boutons principaux */
     .btn.netflix:hover,
     .btn.outdoor:hover {
       transform: scale(1.05);
