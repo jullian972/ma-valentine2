@@ -1,97 +1,127 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<title>Veux-tu être ma Valentine ? 💖</title>
-<style>
-  body { 
-    margin:0; 
-    font-family:Arial,sans-serif; 
-    text-align:center; 
-    background:#FF5AAC; /* fond rose */
-  }
-  .title-container { display:flex; justify-content:center; align-items:baseline; gap:10px; margin-top:40px; }
-  h1 { color:#ffffff; margin:0; }
-  .small-text { font-size:0.8em; color:white; }
-  
-  /* image plus petite et centrée */
-  img { 
-    display:block;
-    margin:20px auto; 
-    max-width:80%; 
-    height:auto; 
-    border-radius:15px; 
-  }
-  
-  .zone { position:relative; width:756px; height:529px; margin:40px auto 0; }
+  <meta charset="UTF-8">
+  <title>Veux-tu être ma Valentine ? 💖</title>
 
-  button {
-    padding:15px 40px;
-    font-size:18px;
-    border-radius:10px;
-    border:none;
-    cursor:pointer;
-    position:absolute;
-    user-select:none;
-  }
+  <style>
+    body { 
+      margin: 0; 
+      font-family: Arial, sans-serif; 
+      text-align: center; 
+      background: #FF5AAC;
+    }
 
-  #oui { background: green; color: white; }
-  #non { background: red; color: white; }
-</style>
+    .title-container {
+      display: flex;
+      justify-content: center;
+      align-items: baseline;
+      gap: 10px;
+      margin-top: 40px;
+    }
+
+    h1 {
+      color: #ffffff;
+      margin: 0;
+    }
+
+    img { 
+      display: block;
+      margin: 20px auto; 
+      max-width: 80%; 
+      height: auto; 
+      border-radius: 15px; 
+    }
+
+    .zone {
+      position: relative;
+      width: 756px;
+      height: 529px;
+      margin: 40px auto 0;
+    }
+
+    button {
+      padding: 15px 40px;
+      font-size: 18px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      position: absolute;
+      user-select: none;
+    }
+
+    #oui {
+      background: green;
+      color: white;
+    }
+
+    #non {
+      background: red;
+      color: white;
+    }
+  </style>
 </head>
+
 <body>
 
-<div class="title-container">
-  <h1>Veux-tu être ma Valentine ? 💖</h1>
-  <!-- ligne supprimée -->
-</div>
+  <div class="title-container">
+    <h1>Veux-tu être ma Valentine ? 💖</h1>
+  </div>
 
-<!-- Ici on pointe vers homme.jpg -->
-<img src="homme.jpg" alt="Photo Valentine">
+  <img src="homme.jpg" alt="Photo Valentine">
 
-<div class="zone">
-  page2.htmlOui</button>
-  <button id="non">Non</button>
-</div>
+  <div class="zone">
+    <button id="oui">Oui</button>
+    <button id="non">Non</button>
+  </div>
 
-<script>
-const non = document.getElementById("non");
-const zone = document.querySelector(".zone");
-const padding = 5;
+  <script>
+    const non = document.getElementById("non");
+    const oui = document.getElementById("oui");
+    const zone = document.querySelector(".zone");
+    const padding = 5;
 
-function positionInitiale() {
-  const zoneWidth = zone.offsetWidth;
-  const zoneHeight = zone.offsetHeight;
-  const ouiWidth = 100;
-  const nonWidth = 100;
-  const btnHeight = 50;
-  const centerX = zoneWidth/2;
-  const centerY = zoneHeight/2;
-  document.getElementById("oui").style.left = (centerX - ouiWidth -10)+"px";
-  document.getElementById("oui").style.top = (centerY - btnHeight/2)+"px";
-  non.style.left = (centerX + 10)+"px";
-  non.style.top = (centerY - btnHeight/2)+"px";
-}
+    function positionInitiale() {
+      const zoneWidth = zone.offsetWidth;
+      const zoneHeight = zone.offsetHeight;
 
-positionInitiale();
-window.addEventListener("resize", positionInitiale);
+      const btnWidth = 100;
+      const btnHeight = 50;
 
-function bougerNon(){
-  const zoneWidth = zone.offsetWidth;
-  const zoneHeight = zone.offsetHeight;
-  const nonWidth = non.offsetWidth;
-  const nonHeight = non.offsetHeight;
-  const minX = padding;
-  const maxX = zoneWidth - nonWidth - padding;
-  const minY = padding;
-  const maxY = zoneHeight - nonHeight - padding;
-  non.style.left = (Math.random()*(maxX-minX)+minX) + "px";
-  non.style.top = (Math.random()*(maxY-minY)+minY) + "px";
-}
+      const centerX = zoneWidth / 2;
+      const centerY = zoneHeight / 2;
 
-non.addEventListener("mouseenter", bougerNon);
-non.addEventListener("touchstart", bougerNon,{passive:false});
-</script>
+      oui.style.left = (centerX - btnWidth - 10) + "px";
+      oui.style.top = (centerY - btnHeight / 2) + "px";
+
+      non.style.left = (centerX + 10) + "px";
+      non.style.top = (centerY - btnHeight / 2) + "px";
+    }
+
+    positionInitiale();
+    window.addEventListener("resize", positionInitiale);
+
+    function bougerNon() {
+      const zoneWidth = zone.offsetWidth;
+      const zoneHeight = zone.offsetHeight;
+
+      const nonWidth = non.offsetWidth;
+      const nonHeight = non.offsetHeight;
+
+      const maxX = zoneWidth - nonWidth - padding;
+      const maxY = zoneHeight - nonHeight - padding;
+
+      non.style.left = Math.random() * maxX + "px";
+      non.style.top = Math.random() * maxY + "px";
+    }
+
+    non.addEventListener("mouseenter", bougerNon);
+    non.addEventListener("touchstart", bougerNon, { passive: false });
+
+    oui.addEventListener("click", () => {
+      window.location.href = "page2.html";
+    });
+  </script>
 
 </body>
 </html>
